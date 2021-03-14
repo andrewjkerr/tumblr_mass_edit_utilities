@@ -8,6 +8,7 @@ This is a small utility script to privatize Tumblr posts for a blog, starting at
 
 1. Copy `config/application.yaml.sample` to `config/application.yaml`.
 1. Add your Tumblr API keys & Tumblr OAuth tokens to that configuration file.
+    * If you have more than 1k posts that you want to make private, you'll need to have "backup" API keys & OAuth tokens. They take the form of `backup_x` and you can have as many as you want. I recommend having at least one set of key per every ~950 posts or so.
 1. Change the `tumblr_blog_url` in the configuration file to your blog URL.
 1. Change `beginning_timestamp` in `script.rb` to be whatever timestamp you want.
 1. `ruby script.rb` and cross your fingers! 🤞

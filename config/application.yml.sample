@@ -1,0 +1,5 @@
+tumblr_consumer_key: 'CONSUMER_KEY'
+tumblr_consumer_secret: 'CONSUMER_SECRET'
+tumblr_oauth_token: 'OAUTH_TOKEN'
+tumblr_oauth_token_secret: 'OAUTH_TOKEN_SECRET'
+tumblr_blog_url: 'testing.tumblr.com

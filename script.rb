@@ -4,26 +4,46 @@ require 'yaml'
 POST_GET_LIMIT = 50
 
 begin
-    config = YAML.load_file('config/application.yaml')
+    @config = YAML.load_file('config/application.yaml')
 rescue => e
     puts "Error loading configuration file; perhaps you need to rename application.yaml.sample?"
     puts "Full error:"
     raise
 end
 
+@backup_api_key_config_keys = @config.keys.select {|config_key| config_key.start_with?('backup_')}
+
 # Authenticate via OAuth
-client = Tumblr::Client.new({
-  consumer_key: config['tumblr_consumer_key'],
-  consumer_secret: config['tumblr_consumer_secret'],
-  oauth_token: config['tumblr_oauth_token'],
-  oauth_token_secret: config['tumblr_oauth_token_secret'],
+@client = Tumblr::Client.new({
+    consumer_key: @config['tumblr_consumer_key'],
+    consumer_secret: @config['tumblr_consumer_secret'],
+    oauth_token: @config['tumblr_oauth_token'],
+    oauth_token_secret: @config['tumblr_oauth_token_secret'],
 })
+
+def rotate_api_keys!
+    next_backup_key_set = @backup_api_key_config_keys.shift
+    raise "Out of API key sets to try." if next_backup_key_set.nil?
+
+    puts "Rotating to #{next_backup_key_set}..."
+
+    @client = Tumblr::Client.new({
+        consumer_key: @config[next_backup_key_set]['tumblr_consumer_key'],
+        consumer_secret: @config[next_backup_key_set]['tumblr_consumer_secret'],
+        oauth_token: @config[next_backup_key_set]['tumblr_oauth_token'],
+        oauth_token_secret: @config[next_backup_key_set]['tumblr_oauth_token_secret'],
+    })
+end
 
 # Set where we should begin our privatization.
 beginning_timestamp = Date.new(2014, 01, 01).to_time.to_i
 
 # Get our initial response.
-response = client.posts(config['tumblr_blog_url'], before: beginning_timestamp, limit: POST_GET_LIMIT)
+next_page_params = {
+    before: beginning_timestamp,
+    limit: POST_GET_LIMIT,
+}
+response = @client.posts(@config['tumblr_blog_url'], next_page_params)
 
 # Store some stats!
 stats = Hash.new(0)
@@ -56,7 +76,9 @@ begin
 
         # Check if we're rate limited 😑.
         if response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
-            raise "Rate limited by Tumblr API, try again later."
+            rotate_api_keys!
+            response = @client.posts(@config['tumblr_blog_url'], next_page_params)
+            next
         end
 
         # If there are no more posts, notify and break.
@@ -78,7 +100,7 @@ begin
         # Iterate over each post and turn them to private.
         published_posts.each do |post|
             puts "Privating post #{post['id']} (#{post['post_url']})"
-            client.edit(config['tumblr_blog_url'], id: post['id'], state: 'private')
+            @client.edit(@config['tumblr_blog_url'], id: post['id'], state: 'private')
 
             # ++ posts_turned_private
             stats[:posts_turned_private] += 1
@@ -93,7 +115,7 @@ begin
             break
         end
 
-        response = client.posts(config['tumblr_blog_url'], next_page_params)
+        response = @client.posts(@config['tumblr_blog_url'], next_page_params)
     end
 rescue => e
     puts "Ruh roh, we error'd! Printing stats & bailing..."

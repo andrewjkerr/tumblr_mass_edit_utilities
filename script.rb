@@ -4,9 +4,9 @@ require 'yaml'
 POST_GET_LIMIT = 50
 
 begin
-    config = YAML.load_file('config/application.yml')
+    config = YAML.load_file('config/application.yaml')
 rescue => e
-    puts "Error loading configuration file; perhaps you need to rename application.yml.sample?"
+    puts "Error loading configuration file; perhaps you need to rename application.yaml.sample?"
     puts "Full error:"
     raise
 end

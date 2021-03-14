@@ -36,7 +36,10 @@ def rotate_api_keys!
 end
 
 # Set where we should begin our privatization.
-beginning_timestamp = Date.new(2014, 01, 01).to_time.to_i
+beginning_timestamp = Date.new(2015, 05, 15).to_time.to_i
+
+# And, set when we should *end* our privatization.
+ending_timestamp = Date.new(2013, 12, 31).to_time.to_i
 
 # Get our initial response.
 next_page_params = {
@@ -87,7 +90,18 @@ begin
             break
         end
 
-        # Get the published posts from our API response.
+        # Extract the posts from our API response.
+        posts = response['posts']
+
+        # Let's check the timestamp of the first non-pinned post to see if we're hit our end date.
+        # If we did, break!
+        first_non_pinned_post = posts.find {|post| !post['is_pinned']}
+        if first_non_pinned_post['timestamp'] < ending_timestamp
+            puts "Hit ending timestamp: #{ending_timestamp}... stopping."
+            break
+        end
+
+        # Now, get only the published posts.
         posts = response['posts']
         published_posts = posts.select do |post|
             post['state'] === 'published' && !should_skip_post?(post)

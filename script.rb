@@ -39,6 +39,7 @@ end
 beginning_timestamp = Date.new(2015, 05, 15).to_time.to_i
 
 # And, set when we should *end* our privatization.
+# Note: this doesn't necessarily work as expected, so proceed with caution. :p
 ending_timestamp = Date.new(2006, 12, 31).to_time.to_i
 
 # Get our initial response.

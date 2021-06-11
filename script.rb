@@ -86,7 +86,8 @@ begin
         end
 
         # If there are no more posts, notify and break.
-        if response['posts'].empty?
+        # The API seems to, uh, have different responses. 😅
+        if response.nil? || !response['posts'].is_a?(Hash) || response['posts'].nil? || response['posts'].empty?
             puts "No more posts!"
             break
         end

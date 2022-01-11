@@ -1,7 +1,10 @@
+require 'date'
 require 'tumblr_client'
 require 'yaml'
 
 POST_GET_LIMIT = 50
+
+puts "Starting up..."
 
 begin
     @config = YAML.load_file('config/application.yaml')
@@ -36,7 +39,9 @@ def rotate_api_keys!
 end
 
 # Set where we should begin our privatization.
-beginning_timestamp = Date.new(2015, 05, 15).to_time.to_i
+# @todo: some command line options here would be nice
+# beginning_timestamp = Date.new(2015, 05, 15).to_time.to_i
+beginning_timestamp = Date.today.prev_year.to_time.to_i
 
 # And, set when we should *end* our privatization.
 # Note: this doesn't necessarily work as expected, so proceed with caution. :p
@@ -77,6 +82,8 @@ begin
     loop do
         # ++ loop_iterations
         stats[:loop_iterations] += 1
+        # @todo: some command line options here would be nice
+        puts "New interation: #{stats[:loop_iterations]}"
 
         # Check if we're rate limited 😑.
         if response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
@@ -87,7 +94,7 @@ begin
 
         # If there are no more posts, notify and break.
         # The API seems to, uh, have different responses. 😅
-        if response.nil? || !response['posts'].is_a?(Hash) || response['posts'].nil? || response['posts'].empty?
+        if response.nil? || !response['posts'].is_a?(Array) || response['posts'].nil? || response['posts'].empty?
             puts "No more posts!"
             break
         end

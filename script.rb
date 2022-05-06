@@ -1,3 +1,5 @@
+# typed: true
+
 require 'date'
 require 'optparse'
 require 'tumblr_client'
@@ -92,10 +94,10 @@ beginning_timestamp = start_date_date.to_time.to_i
 ending_timestamp = Date.new(2006, 12, 31).to_time.to_i
 
 # Get our initial response.
-next_page_params = {
+next_page_params = T.let({
     before: beginning_timestamp,
     limit: POST_GET_LIMIT,
-}
+}, T.untyped)
 response = @client.posts(@config['tumblr_blog_url'], next_page_params)
 
 # Store some stats!

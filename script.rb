@@ -6,7 +6,7 @@ require 'tumblr_client'
 require 'yaml'
 
 POST_GET_LIMIT = T.let(50, Integer)
-DEFAULT_CONFIG_FILE_PATH = T.let('config/application.yaml', String)
+DEFAULT_CONFIG_FILE_PATH = 'config/application.yaml'
 
 puts "Starting up..."
 

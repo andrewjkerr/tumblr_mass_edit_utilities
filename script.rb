@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 
 require 'date'
 require 'optparse'
@@ -8,7 +8,7 @@ require 'yaml'
 POST_GET_LIMIT = 50
 DEFAULT_CONFIG_FILE_PATH = 'config/application.yaml'
 
-puts "Starting up..."
+puts 'Starting up...'
 
 # Load in options
 options = {}

@@ -5,7 +5,7 @@ require 'optparse'
 require 'tumblr_client'
 require 'yaml'
 
-POST_GET_LIMIT = T.let(50, Integer)
+POST_GET_LIMIT = 50
 DEFAULT_CONFIG_FILE_PATH = 'config/application.yaml'
 
 puts "Starting up..."

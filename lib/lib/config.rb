@@ -5,7 +5,7 @@ require_relative('tumblr_api_credential.rb')
 class Config < T::Struct
   extend T::Sig
 
-  DEFAULT_CONFIG_FILE_PATH = T.let('config/application_config.rb', String)
+  DEFAULT_CONFIG_FILE_PATH = T.let("#{Dir.pwd}/config/application_config.rb", String)
 
   const :tumblr_blog_url, String
   prop :tumblr_api_credentials, T::Array[TumblrApiCredential]
@@ -14,7 +14,7 @@ class Config < T::Struct
   def self.parse_config!(config_file)
     # first, attempt to load in our Ruby config file
     begin
-      require_relative("../#{config_file}")
+      require(config_file)
     rescue
       if config_file == DEFAULT_CONFIG_FILE_PATH
         puts "Error loading configuration file; does #{config_file} exist?"

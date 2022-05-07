@@ -2,49 +2,63 @@
 
 require 'date'
 require 'optparse'
+require 'sorbet-runtime'
 require 'tumblr_client'
 require 'yaml'
 
-POST_GET_LIMIT = 50
-DEFAULT_CONFIG_FILE_PATH = 'config/application.yaml'
+extend T::Sig
+
+POST_GET_LIMIT = T.let(50, Integer)
+DEFAULT_CONFIG_FILE_PATH = T.let('config/application.yaml', String)
+
+class Options < T::Struct
+    const :start_date, String
+    const :config_file, String, default: DEFAULT_CONFIG_FILE_PATH
+    const :verbose, T::Boolean, default: false
+end
+
+sig {returns(Options)}
+def parse_options
+    # Create a new options array
+    options = T.let({}, T::Hash[Symbol, String])
+
+    OptionParser.new do |opts|
+        opts.banner = 'Usage: ruby script.rb [options]'
+        opts.on('-cFILE_PATH', '--config=FILE_PATH', "Override the config file that's used (default: config/application.yaml)") do |c|
+            options[:config_file] = c
+        end
+        opts.on('-dSTART_DATE', '--start_date=START_DATE', "The date to start privatizing posts, in YYYY-DD-MM format.") do |d|
+            options[:start_date] = d
+        end
+        opts.on('-v', '--verbose', "Print debug-y information") { |v| options[:verbose] = v }
+        opts.on('-h', '--help', 'Prints this help') do
+            puts opts
+            exit
+        end
+    end.parse!
+
+    # Validate that we have the correct options
+    [:start_date].each do |required_flags|
+        unless options.key?(required_flags)
+            puts "Required option #{required_flags} is not set. Please use --help to view which flags are required."
+            exit(1)
+        end
+    end
+
+    Options.new(**T.unsafe(options))
+end
 
 puts 'Starting up...'
 
-# Load in options
-options = {}
-OptionParser.new do |opts|
-    opts.banner = 'Usage: ruby script.rb [options]'
-    opts.on('-cFILE_PATH', '--config=FILE_PATH', "Override the config file that's used (default: config/application.yaml)") do |c|
-        options[:config_file] = c
-    end
-    opts.on('-dSTART_DATE', '--start_date=START_DATE', "The date to start privatizing posts, in YYYY-DD-MM format.") do |d|
-        options[:start_date] = d
-    end
-    opts.on('-v', '--verbose', "Print debug-y information") { |v| options[:verbose] = v }
-    opts.on('-h', '--help', 'Prints this help') do
-        puts opts
-        exit
-    end
-end.parse!
-
-# Validate that we have the correct options
-[:start_date].each do |required_flags|
-    unless options.key?(required_flags)
-        puts "Required option #{required_flags} is not set. Please use --help to view which flags are required."
-        exit(1)
-    end
-end
-
-# Set @verbose so we can use it throughout when we're printing debug-level text
-@verbose = options.dig(:verbose)
+# Parse our options into an Options struct. Keep it for the entire script!
+@options = T.let(parse_options, Options)
 
 # Load in our config
 begin
-    file_name = options.key(:config_file) ? options[:config_file] : DEFAULT_CONFIG_FILE_PATH
-    @config = YAML.load_file(file_name)
+    @config = YAML.load_file(@options.config_file)
 rescue
-    if options.key(:config_file)
-        puts "Error loading configuration file; does #{options.key(:config_file)} exist?"
+    if @options.config_file == DEFAULT_CONFIG_FILE_PATH
+        puts "Error loading configuration file; does #{@options.config_file} exist?"
     else
         puts "Error loading configuration file; perhaps you need to rename application.yaml.sample?"
     end
@@ -63,11 +77,12 @@ end
     oauth_token_secret: @config['tumblr_oauth_token_secret'],
 })
 
+sig {void}
 def rotate_api_keys!
     next_backup_key_set = @backup_api_key_config_keys.shift
     raise "Out of API key sets to try." if next_backup_key_set.nil?
 
-    puts "Rotating to #{next_backup_key_set}..." if @verbose
+    puts "Rotating to #{next_backup_key_set}..." if @options.verbose
 
     @client = Tumblr::Client.new({
         consumer_key: @config[next_backup_key_set]['tumblr_consumer_key'],
@@ -78,11 +93,10 @@ def rotate_api_keys!
 end
 
 # Set where we should begin our privatization.
-start_date = options[:start_date]
 begin
-    start_date_date = Date.parse(start_date)
+    start_date_date = Date.parse(@options.start_date)
 rescue
-    puts "Error parsing #{start_date}! Please check the format to ensure it's correct."
+    puts "Error parsing #{@options.start_date}! Please check the format to ensure it's correct."
     puts "Full error:"
     raise
 end
@@ -97,7 +111,8 @@ ending_timestamp = Date.new(2006, 12, 31).to_time.to_i
 next_page_params = T.let({
     before: beginning_timestamp,
     limit: POST_GET_LIMIT,
-}, T.untyped)
+}, T::Hash[Symbol, Integer])
+
 response = @client.posts(@config['tumblr_blog_url'], next_page_params)
 
 # Store some stats!
@@ -116,6 +131,7 @@ def should_skip_post?(post)
 end
 
 # Print our stats.
+sig {params(stats: T::Hash[Symbol, Integer]).void}
 def print_stats!(stats)
     # At the end, print out our stats.
     puts "Stats:"
@@ -128,7 +144,7 @@ begin
     loop do
         # ++ loop_iterations
         stats[:loop_iterations] += 1
-        puts "New interation: #{stats[:loop_iterations]}" if @verbose
+        puts "New interation: #{stats[:loop_iterations]}" if @options.verbose
 
         # Check if we're rate limited 😑.
         if response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
@@ -140,7 +156,7 @@ begin
         # If there are no more posts, notify and break.
         # The API seems to, uh, have different responses. 😅
         if response.nil? || !response['posts'].is_a?(Array) || response['posts'].nil? || response['posts'].empty?
-            puts "No more posts!" if @verbose
+            puts "No more posts!" if @options.verbose
             break
         end
 
@@ -151,7 +167,7 @@ begin
         # If we did, break!
         first_non_pinned_post = posts.find {|post| !post['is_pinned']}
         if first_non_pinned_post['timestamp'] < ending_timestamp
-            puts "Hit ending timestamp: #{ending_timestamp}... stopping." if @verbose
+            puts "Hit ending timestamp: #{ending_timestamp}... stopping." if @options.verbose
             break
         end
 
@@ -167,7 +183,7 @@ begin
 
         # Iterate over each post and turn them to private.
         published_posts.each do |post|
-            puts "Privating post #{post['id']} (#{post['post_url']})" if @verbose
+            puts "Privating post #{post['id']} (#{post['post_url']})" if @options.verbose
             @client.edit(@config['tumblr_blog_url'], id: post['id'], state: 'private')
 
             # ++ posts_turned_private
@@ -179,7 +195,7 @@ begin
 
         # If we don't have a next page, break.
         if next_page_params.nil? || next_page_params.empty?
-            puts "No next page!" if @verbose
+            puts "No next page!" if @options.verbose
             break
         end
 

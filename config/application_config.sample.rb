@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'sorbet-runtime'
-
 class ApplicationConfig < T::Struct
   extend T::Sig
 

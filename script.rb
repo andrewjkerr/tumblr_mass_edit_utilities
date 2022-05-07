@@ -17,9 +17,6 @@ require_relative('lib/stats.rb')
 require_relative('lib/tumblr_api_credential.rb')
 require_relative('lib/tumblr_client.rb')
 
-# ~ sorbet magic ~!
-extend T::Sig
-
 # parse our command line options and turn them into our `Options` struct to use later
 options = T.let(Options.parse_options, Options)
 

@@ -36,19 +36,6 @@ page_query_params = PageQueryParams.new(
 
 response = client.posts(config.tumblr_blog_url, page_query_params)
 
-# Check if we need to skip a post due to some fun edge cases.
-sig {params(post: T::Hash[String, T.untyped]).returns(T::Boolean)}
-def should_skip_post?(post)
-  # Pinned posts are somehow always returned in this response. :/
-  return true if post['is_pinned']
-
-  # Any posts before the, uh, creation of Tumblr have a timestamp before the beginning timestamp.
-  # ... don't ask. :p
-  return true if Date.parse(post['date']) <= Date.new(2007, 01, 01)
-
-  false
-end
-
 stats = T.let(Stats.new, Stats)
 
 begin
@@ -70,7 +57,7 @@ begin
     # Now, get only the published posts.
     posts = response['posts']
     published_posts = posts.select do |post|
-      post['state'] === 'published' && !should_skip_post?(post)
+      post['state'] === 'published' && !Post.should_skip_post?(post)
     end
 
     # += total_posts & += published_posts

@@ -28,9 +28,19 @@ class TumblrClient
     Tumblr::Client.new(tumblr_api_credential.serialize.transform_keys(&:to_sym))
   end
 
-  sig {params(tumblelog_url: String, next_page_params: PageQueryParams).returns(T::Hash[String, T.untyped])}
+  sig {params(tumblelog_url: String, next_page_params: PageQueryParams).returns(Response::Posts)}
   def posts(tumblelog_url, next_page_params)
-    make_request {@client.posts(tumblelog_url, next_page_params.serialize.transform_keys(&:to_sym))}
+    response = make_request do
+      @client.posts(tumblelog_url, next_page_params.serialize.transform_keys(&:to_sym))
+    end
+
+    posts = Post.from_response_posts_array(response.dig('posts') || T.let([], T::Array[Post]))
+    next_page_number = response.dig('_links', 'next', 'query_params', 'page_number')
+
+    return Response::Posts.new(
+      posts: posts,
+      next_page_number: next_page_number,
+    )
   end
 
   sig {params(tumblelog_url: String, post_id: String, state: Post::State).void}
@@ -51,22 +61,27 @@ class TumblrClient
   private
     sig {params(block: Proc).returns(T::Hash[String, T.untyped])}
     def make_request(&block)
-      response = block.call
+      response = Response.from_response_hash(block.call)
 
-      # if the response isn't a rate limit error, return it!
-      return response unless is_rate_limited?(response)
+      # if the response isn't an error, return it!
+      return response unless response.is_a?(Response::Error)
+
+      # check if we're rate limited or if we have an unknown error
+      raise "Unknown error: #{response.serialize}" unless is_rate_limited?(response)
 
       # if we are rate limited, instantiate a new client and re-try the request!
       client_from_next_creds!
-      block.call
+      response = Response.from_response_hash(block.call)
+
+      # if it's still an error, let's raise it
+      raise "Maximum number of errors with response: #{response.serialize}" if response.is_a?(Response::Error)
+
+      response
     end
 
-    sig {params(response: T::Hash[String, T.untyped]).returns(T::Boolean)}
+    sig {params(response: Response::Error).returns(T::Boolean)}
     def is_rate_limited?(response)
-      # assume we're not if we don't have a status or a message
-      return false if response.dig('status').nil? || response.dig('msg').nil?
-
       # check to see if we're rate limited!
-      response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
+      response.status === 429 && response.message === 'Limit Exceeded'
     end
 end

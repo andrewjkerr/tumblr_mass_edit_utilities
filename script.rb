@@ -12,6 +12,7 @@ require_relative('lib/config.rb')
 require_relative('lib/page_query_params.rb')
 require_relative('lib/options.rb')
 require_relative('lib/post.rb')
+require_relative('lib/response.rb')
 require_relative('lib/stats.rb')
 require_relative('lib/tumblr_api_credential.rb')
 require_relative('lib/tumblr_client.rb')
@@ -34,9 +35,9 @@ page_query_params = PageQueryParams.new(
   tumblelog: config.tumblr_blog_url,
 )
 
-response = client.posts(config.tumblr_blog_url, page_query_params)
-
 stats = T.let(Stats.new, Stats)
+
+response = client.posts(config.tumblr_blog_url, page_query_params)
 
 begin
   loop do
@@ -46,44 +47,37 @@ begin
 
     # If there are no more posts, notify and break.
     # The API seems to, uh, have different responses. 😅
-    if !response['posts'].is_a?(Array) || response['posts'].nil? || response['posts'].empty?
+    unless response.has_posts?
       puts "No more posts!" if options.verbose
       break
     end
 
-    # Extract the posts from our API response.
-    posts = response['posts']
-
     # Now, get only the published posts.
-    posts = response['posts']
-    published_posts = posts.select do |post|
-      post['state'] === 'published' && !Post.should_skip_post?(post)
+    published_posts = response.posts.select do |post|
+      post.state === Post::State::PUBLISHED && !Post.should_skip_post?(post)
     end
 
     # += total_posts & += published_posts
-    stats.total_posts += posts.size
+    stats.total_posts += response.posts.size
     stats.published_posts += published_posts.size
 
     # Iterate over each post and turn them to private.
     published_posts.each do |post|
-      puts "Privating post #{post['id']} (#{post['post_url']})" if options.verbose
-      client.edit(config.tumblr_blog_url, post['id_string'], Post::State::PRIVATE)
+      puts "Privating post #{post.id} (#{post.post_url})" if options.verbose
+      client.edit(config.tumblr_blog_url, post.id, Post::State::PRIVATE)
 
       # ++ posts_turned_private
       stats.posts_turned_private += 1
     end
 
-    # Ok, now let's get the next batch of posts.
-    next_page_query_params = response.dig('_links', 'next', 'query_params')
-
-    # If we don't have a next page, break.
-    if next_page_query_params.nil? || next_page_query_params.empty? || next_page_query_params.dig('page_number').nil?
+    # ok, let's move onto the next page if we have one!
+    unless response.has_next_page?
       puts "No next page!" if options.verbose
       break
     end
 
     # update our PageQueryParams to use the page_number that is next
-    page_query_params.page_number = next_page_query_params.dig('page_number')
+    page_query_params.page_number = response.next_page_number
 
     # andddd get the next response!
     response = client.posts(config.tumblr_blog_url, page_query_params)

@@ -70,9 +70,14 @@ class Options < T::Struct
   sig {void}
   def self.prompt_for_continue!
     puts "⚠ WARNING ⚠: The default option for this script is to start with posts from right now."
-    puts "If this is expected, press any key to continue..."
+    puts "If this is expected, enter 'y' to proceed:"
 
-    STDIN.gets
+    input = T.must(STDIN.gets).chomp.downcase
+
+    unless ['y', 'yes', 'true'].include?(input)
+      puts "Phew, glad I double checked! Please use `--start_date=YYYY-MM-DD`` to specify a start date (`--help` for help!)."
+      exit
+    end
 
     puts "Thanks for letting me double check! Continuing..."
   end

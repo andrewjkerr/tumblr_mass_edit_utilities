@@ -1,4 +1,4 @@
-# typed: true
+# typed: strict
 
 # require our gems!
 require 'date'
@@ -26,7 +26,7 @@ options = T.let(Options.parse_options, Options)
 config = T.let(Config.parse_config!(options.config_file), Config)
 
 # set up our new client
-@client = TumblrClient.new(config.tumblr_api_credentials)
+client = TumblrClient.new(config.tumblr_api_credentials)
 
 # Get our initial response.
 page_query_params = PageQueryParams.new(
@@ -34,7 +34,7 @@ page_query_params = PageQueryParams.new(
   tumblelog: config.tumblr_blog_url,
 )
 
-response = @client.posts(config.tumblr_blog_url, page_query_params)
+response = client.posts(config.tumblr_blog_url, page_query_params)
 
 # Check if we need to skip a post due to some fun edge cases.
 sig {params(post: T::Hash[String, T.untyped]).returns(T::Boolean)}
@@ -80,7 +80,7 @@ begin
     # Iterate over each post and turn them to private.
     published_posts.each do |post|
       puts "Privating post #{post['id']} (#{post['post_url']})" if options.verbose
-      @client.edit(config.tumblr_blog_url, post['id_string'], Post::State::PRIVATE)
+      client.edit(config.tumblr_blog_url, post['id_string'], Post::State::PRIVATE)
 
       # ++ posts_turned_private
       stats.posts_turned_private += 1
@@ -99,7 +99,7 @@ begin
     page_query_params.page_number = next_page_query_params.dig('page_number')
 
     # andddd get the next response!
-    response = @client.posts(config.tumblr_blog_url, page_query_params)
+    response = client.posts(config.tumblr_blog_url, page_query_params)
   end
 rescue => e
   puts "Ruh roh, we error'd! Printing stats & bailing..."

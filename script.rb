@@ -57,13 +57,6 @@ begin
     stats.loop_iterations += 1
     puts "New interation: #{stats.loop_iterations}" if options.verbose
 
-    # Check if we're rate limited 😑.
-    if response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
-      @client.client_from_next_creds!
-      response = @client.posts(config.tumblr_blog_url, page_query_params)
-      next
-    end
-
     # If there are no more posts, notify and break.
     # The API seems to, uh, have different responses. 😅
     if !response['posts'].is_a?(Array) || response['posts'].nil? || response['posts'].empty?

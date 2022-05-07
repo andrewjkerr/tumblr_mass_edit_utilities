@@ -30,12 +30,12 @@ class TumblrClient
 
   sig {params(tumblelog_url: String, next_page_params: PageQueryParams).returns(T::Hash[String, T.untyped])}
   def posts(tumblelog_url, next_page_params)
-    @client.posts(tumblelog_url, next_page_params.serialize.transform_keys(&:to_sym))
+    make_request {@client.posts(tumblelog_url, next_page_params.serialize.transform_keys(&:to_sym))}
   end
 
   sig {params(tumblelog_url: String, post_id: String, state: Post::State).void}
   def edit(tumblelog_url, post_id, state)
-    @client.edit(tumblelog_url, id: post_id, state: state.serialize)
+    make_request {@client.edit(tumblelog_url, id: post_id, state: state.serialize)}
   end
 
   sig {void}
@@ -47,4 +47,26 @@ class TumblrClient
     # instantiate a new client to use
     @client = TumblrClient.client_from_tumblr_api_credential(new_tumblr_api_creds)
   end
+
+  private
+    sig {params(block: Proc).returns(T::Hash[String, T.untyped])}
+    def make_request(&block)
+      response = block.call
+
+      # if the response isn't a rate limit error, return it!
+      return response unless is_rate_limited?(response)
+
+      # if we are rate limited, instantiate a new client and re-try the request!
+      client_from_next_creds!
+      block.call
+    end
+
+    sig {params(response: T::Hash[String, T.untyped]).returns(T::Boolean)}
+    def is_rate_limited?(response)
+      # assume we're not if we don't have a status or a message
+      return false if response.dig('status').nil? || response.dig('msg').nil?
+
+      # check to see if we're rate limited!
+      response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
+    end
 end

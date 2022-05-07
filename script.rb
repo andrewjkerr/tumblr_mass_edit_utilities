@@ -19,39 +19,22 @@ extend T::Sig
 
 POST_GET_LIMIT = T.let(50, Integer)
 
-puts 'Starting up...'
-
 # parse our command line options and turn them into our `Options` struct to use later
-@options = T.let(Options.parse_options, Options)
+options = T.let(Options.parse_options, Options)
 
 # now, parse our application config file into our `Config` struct to also use later
-@config = T.let(Config.parse_config!(@options.config_file), Config)
+config = T.let(Config.parse_config!(options.config_file), Config)
 
 # set up our new client
-@client = TumblrClient.new(@config.tumblr_api_credentials)
-
-# Set where we should begin our privatization.
-begin
-  start_date_date = Date.parse(@options.start_date)
-rescue
-  puts "Error parsing #{@options.start_date}! Please check the format to ensure it's correct."
-  puts "Full error:"
-  raise
-end
-
-beginning_timestamp = start_date_date.to_time.to_i
-
-# And, set when we should *end* our privatization.
-# Note: this doesn't necessarily work as expected, so proceed with caution. :p
-ending_timestamp = Date.new(2006, 12, 31).to_time.to_i
+@client = TumblrClient.new(config.tumblr_api_credentials)
 
 # Get our initial response.
 next_page_params = T.let({
-  before: beginning_timestamp,
+  before: options.beginning_timestamp,
   limit: POST_GET_LIMIT,
 }, T::Hash[Symbol, Integer])
 
-response = @client.client.posts(@config.tumblr_blog_url, next_page_params)
+response = @client.client.posts(config.tumblr_blog_url, next_page_params)
 
 # Check if we need to skip a post due to some fun edge cases.
 sig {params(post: T::Hash[String, T.untyped]).returns(T::Boolean)}
@@ -72,32 +55,24 @@ begin
   loop do
     # ++ loop_iterations
     stats.loop_iterations += 1
-    puts "New interation: #{stats.loop_iterations}" if @options.verbose
+    puts "New interation: #{stats.loop_iterations}" if options.verbose
 
     # Check if we're rate limited 😑.
     if response.dig('status') === 429 && response.dig('msg') === 'Limit Exceeded'
       @client.client_from_next_creds!
-      response = @client.client.posts(@config.tumblr_blog_url, next_page_params)
+      response = @client.client.posts(config.tumblr_blog_url, next_page_params)
       next
     end
 
     # If there are no more posts, notify and break.
     # The API seems to, uh, have different responses. 😅
     if response.nil? || !response['posts'].is_a?(Array) || response['posts'].nil? || response['posts'].empty?
-      puts "No more posts!" if @options.verbose
+      puts "No more posts!" if options.verbose
       break
     end
 
     # Extract the posts from our API response.
     posts = response['posts']
-
-    # Let's check the timestamp of the first non-pinned post to see if we're hit our end date.
-    # If we did, break!
-    first_non_pinned_post = posts.find {|post| !post['is_pinned']}
-    if first_non_pinned_post['timestamp'] < ending_timestamp
-      puts "Hit ending timestamp: #{ending_timestamp}... stopping." if @options.verbose
-      break
-    end
 
     # Now, get only the published posts.
     posts = response['posts']
@@ -111,8 +86,8 @@ begin
 
     # Iterate over each post and turn them to private.
     published_posts.each do |post|
-      puts "Privating post #{post['id']} (#{post['post_url']})" if @options.verbose
-      @client.client.edit(@config.tumblr_blog_url, id: post['id'], state: 'private')
+      puts "Privating post #{post['id']} (#{post['post_url']})" if options.verbose
+      @client.client.edit(config.tumblr_blog_url, id: post['id'], state: 'private')
 
       # ++ posts_turned_private
       stats.posts_turned_private += 1
@@ -123,11 +98,11 @@ begin
 
     # If we don't have a next page, break.
     if next_page_params.nil? || next_page_params.empty?
-      puts "No next page!" if @options.verbose
+      puts "No next page!" if options.verbose
       break
     end
 
-    response = @client.client.posts(@config.tumblr_blog_url, next_page_params)
+    response = @client.client.posts(config.tumblr_blog_url, next_page_params)
   end
 rescue => e
   puts "Ruh roh, we error'd! Printing stats & bailing..."

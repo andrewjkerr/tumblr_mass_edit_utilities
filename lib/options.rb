@@ -3,36 +3,58 @@
 class Options < T::Struct
   extend T::Sig
 
-  const :start_date, String
-  const :config_file, String, default: Config::DEFAULT_CONFIG_FILE_PATH
-  const :verbose, T::Boolean, default: false
+  sig {params(date: Date).returns(Integer)}
+  def self.get_timestamp(date)
+    date.to_time.to_i
+  end
+
+  prop :beginning_timestamp, Integer, default: Options.get_timestamp(Date.today)
+  prop :config_file, String, default: Config::DEFAULT_CONFIG_FILE_PATH
+  prop :verbose, T::Boolean, default: false
 
   sig {returns(Options)}
   def self.parse_options
-    # Create a new options array
-    options = T.let({}, T::Hash[Symbol, T.any(String, T::Boolean)])
+    # make a "default" options struct that we will change in the options below
+    options = Options.new
+
+    # having the start_date option default to today can be somewhat jarring for users of previous verison
+    # so, we'll ask the user if they want to continue with the default option if they don't set their own
+    continue_prompt = T.let(true, T::Boolean)
 
     OptionParser.new do |opts|
       opts.banner = 'Usage: ruby script.rb [options]'
-      opts.on('-cFILE_PATH', '--config=FILE_PATH', "Override the config file that's used (default: config/application.yaml)") do |c|
-        options[:config_file] = c
+
+      opts.on('-cFILE_PATH', '--config=FILE_PATH', "Override the config file that's used (default: #{Config::DEFAULT_CONFIG_FILE_PATH})") do |c|
+        options.config_file = c
       end
-      opts.on('-dSTART_DATE', '--start_date=START_DATE', "The date to start privatizing posts, in YYYY-DD-MM format.") do |d|
-        options[:start_date] = d
+
+      opts.on('-dSTART_DATE', '--start_date=START_DATE', "The date to start privatizing posts, in YYYY-DD-MM format (default: today)") do |d|
+        options.beginning_timestamp = Options.calculate_beginning_timestamp!(d)
+        continue_prompt = false
       end
-      opts.on('-v', '--verbose', "Print debug-y information") { |v| options[:verbose] = true }
+
+      opts.on('-v', '--verbose', "Print debug-y information") { options.verbose = true }
+
       opts.on('-h', '--help', 'Prints this help') do
         puts opts
         exit
       end
     end.parse!
 
-    # Validate that we have the correct options
-    Options.validate_required_options!(options)
+    Options.prompt_for_continue! if continue_prompt
 
-    # A note on this: we're fine with the unsafe here because all of our keys match 1:1 with Options `const`s.
-    # However, we need to splat the options array in so we can have the default `const` values instead of `nil`.
-    Options.new(**T.unsafe(options))
+    options
+  end
+
+  sig {params(start_date: String).returns(Integer)}
+  def self.calculate_beginning_timestamp!(start_date)
+    begin
+      return Options.get_timestamp(Date.parse(start_date))
+    rescue
+      puts "Error parsing #{start_date}! Please check the format to ensure it's correct."
+      puts "Full error:"
+      raise
+    end
   end
 
   sig {params(options: T::Hash[Symbol, T.any(String, T::Boolean)]).void}
@@ -43,5 +65,15 @@ class Options < T::Struct
         exit(1)
       end
     end
+  end
+
+  sig {void}
+  def self.prompt_for_continue!
+    puts "⚠ WARNING ⚠: The default option for this script is to start with posts from right now."
+    puts "If this is expected, press any key to continue..."
+
+    STDIN.gets
+
+    puts "Thanks for letting me double check! Continuing..."
   end
 end

@@ -28,6 +28,16 @@ class TumblrClient
     Tumblr::Client.new(tumblr_api_credential.serialize.transform_keys(&:to_sym))
   end
 
+  sig {params(tumblelog_url: String, next_page_params: PageQueryParams).returns(T::Hash[String, T.untyped])}
+  def posts(tumblelog_url, next_page_params)
+    @client.posts(tumblelog_url, next_page_params.serialize.transform_keys(&:to_sym))
+  end
+
+  sig {params(tumblelog_url: String, post_id: String, state: Post::State).void}
+  def edit(tumblelog_url, post_id, state)
+    @client.edit(tumblelog_url, id: post_id, state: state.serialize)
+  end
+
   sig {void}
   def client_from_next_creds!
     # get the next set of credentials; throw an error if there are none!

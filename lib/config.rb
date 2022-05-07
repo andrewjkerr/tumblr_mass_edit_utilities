@@ -1,5 +1,7 @@
 # typed: strict
 
+require_relative('tumblr_api_credential.rb')
+
 class Config < T::Struct
   extend T::Sig
 

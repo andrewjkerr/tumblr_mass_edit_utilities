@@ -11,4 +11,4 @@ config = T.let(Config.parse_config!(options.config_file), Config)
 # set up our new client
 client = TumblrClient.new(config.tumblr_api_credentials)
 
-Command::PrivatizePosts.new.call!(options, config, client)
+Command::PrivatizePosts.call(options, config, client)

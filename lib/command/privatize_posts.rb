@@ -1,12 +1,10 @@
 # typed: strict
 
-class Command::PrivatizePosts
+class Command::PrivatizePosts < Command
   extend T::Sig
 
   sig {params(options: Options, config: Config, client: TumblrClient).void}
-  def call!(options, config, client)
-    puts "Starting post privatization..."
-    
+  def call(options, config, client)
     # Get our initial response.
     page_query_params = PageQueryParams.new(
       before: options.beginning_timestamp,
@@ -67,6 +65,5 @@ class Command::PrivatizePosts
     end
 
     stats.print!
-    puts "Done!"
   end
 end

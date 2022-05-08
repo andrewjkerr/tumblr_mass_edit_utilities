@@ -11,6 +11,7 @@ class Options < T::Struct
   prop :beginning_timestamp, Integer, default: Options.get_timestamp(Date.today)
   prop :config_file, String, default: Config::DEFAULT_CONFIG_FILE_PATH
   prop :verbose, T::Boolean, default: false
+  prop :tag, T.nilable(String)
 
   sig {returns(Options)}
   def self.parse_options
@@ -24,12 +25,16 @@ class Options < T::Struct
     OptionParser.new do |opts|
       opts.banner = 'Usage: ruby script.rb [options]'
 
-      opts.on('-dSTART_DATE', '--start_date=START_DATE', "The date to start privatizing posts, in YYYY-DD-MM format (default: today)") do |d|
+      opts.on('-dSTART_DATE', '--start_date=START_DATE', 'The date to start privatizing posts, in YYYY-DD-MM format (default: today)') do |d|
         options.beginning_timestamp = Options.calculate_beginning_timestamp!(d)
         continue_prompt = false
       end
 
-      opts.on('-v', '--verbose', "Print debug-y information") { options.verbose = true }
+      opts.on('--tTAG', '--tag=TAG', 'The tag of the posts to turn private') do |t|
+        options.tag = t
+      end
+
+      opts.on('-v', '--verbose', 'Print debug-y information') { options.verbose = true }
 
       opts.on('-h', '--help', 'Prints this help') do
         puts opts

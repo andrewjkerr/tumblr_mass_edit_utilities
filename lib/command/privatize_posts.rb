@@ -5,11 +5,14 @@ class Command::PrivatizePosts < Command
 
   sig {params(options: Options, config: Config, client: TumblrClient).void}
   def call(options, config, client)
-    # Get our initial response.
+    # make our base query params
     page_query_params = PageQueryParams.new(
       before: options.beginning_timestamp,
       tumblelog: config.tumblr_blog_url,
     )
+
+    # add tag if we have one
+    page_query_params.tag = options.tag unless options.tag.nil?
 
     stats = T.let(Stats.new, Stats)
 
@@ -21,8 +24,7 @@ class Command::PrivatizePosts < Command
         stats.loop_iterations += 1
         puts "New interation: #{stats.loop_iterations}" if options.verbose
 
-        # If there are no more posts, notify and break.
-        # The API seems to, uh, have different responses. 😅
+        # if there are no more posts, break!
         unless response.has_posts?
           puts "No more posts!" if options.verbose
           break

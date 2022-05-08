@@ -67,16 +67,16 @@ class TumblrClient
       return response unless response.is_a?(Response::Error)
 
       # check if we're rate limited or if we have an unknown error
-      raise "Unknown error: #{response.serialize}" unless is_rate_limited?(response)
+      if is_rate_limited?(response)
+        # if we are rate limited, instantiate a new client and re-try the request!
+        client_from_next_creds!
+        response = Response.from_response_hash(block.call)
+      else
+        puts "Funky error: #{response.serialize}"
+      end
 
-      # if we are rate limited, instantiate a new client and re-try the request!
-      client_from_next_creds!
-      response = Response.from_response_hash(block.call)
-
-      # if it's still an error, let's raise it
-      raise "Maximum number of errors with response: #{response.serialize}" if response.is_a?(Response::Error)
-
-      response
+      return response unless response.is_a?(Response::Error)
+      response.serialize
     end
 
     sig {params(response: Response::Error).returns(T::Boolean)}

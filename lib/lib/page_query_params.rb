@@ -8,4 +8,5 @@ class PageQueryParams < T::Struct
   prop :before, Integer
   prop :tumblelog, String
   prop :page_number, T.nilable(String)
+  prop :tag, T.nilable(String)
 end

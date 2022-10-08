@@ -55,6 +55,11 @@ class TumblrClient
     payload = {id: post_id}
     payload[:state] = state.serialize unless state.nil?
 
+    unless community_label_categories.nil?
+      payload[:community_label_categories] = community_label_categories.map {|label| label.serialize}
+      payload[:has_community_label] = !payload[:community_label_categories].empty?
+    end
+
     make_request {@client.edit(tumblelog_url, payload)}
   end
 

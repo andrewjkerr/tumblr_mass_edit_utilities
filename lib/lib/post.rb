@@ -24,6 +24,7 @@ class Post < T::Struct
   const :state, State
   const :is_pinned, T::Boolean
   const :date, String
+  const :community_label_categories, T::Array[String]
 
   sig {params(posts: T::Array[T::Hash[String, T.untyped]]).returns(T::Array[Post])}
   def self.from_response_posts_array(posts)
@@ -38,19 +39,7 @@ class Post < T::Struct
       state: State.deserialize(post.dig('state')),
       is_pinned: post.dig('is_pinned') || false,
       date: post.dig('date'),
+      community_label_categories: post.dig('community_label_categories') || [],
     )
-  end
-
-  # Check if we need to skip a post due to some fun edge cases.
-  sig {params(post: Post).returns(T::Boolean)}
-  def self.should_skip_post?(post)
-    # Pinned posts are somehow always returned in this response. :/
-    return true if post.is_pinned
-
-    # Any posts before the, uh, creation of Tumblr have a timestamp before the beginning timestamp.
-    # ... don't ask. :p
-    return true if Date.parse(post.date) <= Date.new(2007, 01, 01)
-
-    false
   end
 end

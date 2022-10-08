@@ -3,6 +3,13 @@
 class Command
   extend T::Sig
 
+  class Command < T::Enum
+    enums do
+      PrivatizePosts = new
+      UpdateCommunityLabels = new
+    end
+  end
+
   def self.call(*args, &block)
     klass = T.unsafe(new)
     

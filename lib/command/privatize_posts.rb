@@ -32,7 +32,7 @@ class Command::PrivatizePosts < Command
 
         # Now, get only the published posts.
         published_posts = response.posts.select do |post|
-          post.state === Post::State::PUBLISHED && !Post.should_skip_post?(post)
+          post.state === Post::State::PUBLISHED && !should_skip_post?(post)
         end
 
         # += total_posts & += published_posts
@@ -67,5 +67,18 @@ class Command::PrivatizePosts < Command
     end
 
     stats.print!
+  end
+
+  # Check if we need to skip a post due to some fun edge cases.
+  sig {params(post: Post).returns(T::Boolean)}
+  def should_skip_post?(post)
+    # Pinned posts are somehow always returned in this response. :/
+    return true if post.is_pinned
+
+    # Any posts before the, uh, creation of Tumblr have a timestamp before the beginning timestamp.
+    # ... don't ask. :p
+    return true if Date.parse(post.date) <= Date.new(2007, 01, 01)
+
+    false
   end
 end

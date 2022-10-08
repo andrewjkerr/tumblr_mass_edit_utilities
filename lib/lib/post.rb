@@ -11,6 +11,14 @@ class Post < T::Struct
     end
   end
 
+  class CommunityLabelCategory < T::Enum
+    enums do
+      DRUG_USE = new
+      VIOLENCE = new
+      SEXUAL_THEMES = new
+    end
+  end
+
   const :id, String
   const :post_url, String
   const :state, State

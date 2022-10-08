@@ -42,10 +42,10 @@ class Command::PrivatizePosts < Command
         # Iterate over each post and turn them to private.
         published_posts.each do |post|
           puts "Privating post #{post.id} (#{post.post_url})" if options.verbose
-          client.edit(config.tumblr_blog_url, post.id, Post::State::PRIVATE)
+          client.edit(config.tumblr_blog_url, post.id, state: Post::State::PRIVATE)
 
-          # ++ posts_turned_private
-          stats.posts_turned_private += 1
+          # ++ posts_updated
+          stats.posts_updated += 1
         end
 
         # ok, let's move onto the next page if we have one!

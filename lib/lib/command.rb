@@ -12,7 +12,7 @@ class Command
 
   def self.call(*args, &block)
     klass = T.unsafe(new)
-    
+
     puts "Running command: #{klass.class.name}"
 
     start_time = Time.now

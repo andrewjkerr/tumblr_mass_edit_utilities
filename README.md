@@ -1,6 +1,6 @@
-**⚠️ Warning: Use at your own risk! Not thoroughly tested!** I do not recommend running on a blog you might actually care about.
-
 # Tumblr Mass Edit Utilities
+
+**⚠️ Warning: Use at your own risk! Not thoroughly tested!** I do not recommend running on a blog you might actually care about.
 
 This is a collection of utilities ("commands") to mass edit posts on a Tumblr blog.
 
@@ -28,6 +28,8 @@ To run the PrivatizePosts command, use the `PrivatizePosts` argument:
     * `ruby script.rb PrivatizePosts --help` will list all of the available options.
 
 ### UpdateCommunityLabels
+
+*Note: This is currently not supported by non-official API clients. Keep an eye on [Tumblr's public API documentation](https://github.com/tumblr/docs) for when this is supported.*
 
 To run the UpdateCommunityLabels command, use the `UpdateCommunityLabels` argument:
 

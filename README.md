@@ -45,7 +45,7 @@ If you'd like to contribute, you'll probably want to get Sorbet up and running b
 
 If you'd like to add a new utility, please...:
 
-1. Add a new command in `lib/command` with the following structure:
+* Add a new command in `lib/command` with the following structure:
 
 ```ruby
 # typed: strict
@@ -63,7 +63,7 @@ class Command::NewCommand < Command
 end
 ```
 
-1. Add the command to the `Command::Command` enum in `lib/lib/command.rb`:
+* Add the command to the `Command::Command` enum in `lib/lib/command.rb`:
 
 ```diff
  class Command < T::Enum
@@ -75,21 +75,21 @@ end
  end
 ```
 
-1. Add the new file to `lib/tumblr_utilties.rb` to ensure it's loaded:
+* Add the new file to `lib/tumblr_utilties.rb` to ensure it's loaded:
 
 ```ruby
 # note, order matters!
 require_relative('command/new_command.rb')
 ```
 
-1. Add the new command call to the entry `script.rb` file:
+* Add the new command call to the entry `script.rb` file:
 
 ```ruby
 when Command::Command::NewCommand
   Command::NewCommand.call(options, config, client)
 ```
 
-And then you can call it via:
+* And then you can call it via:
 
 ```bash
 ruby script.rb NewCommand

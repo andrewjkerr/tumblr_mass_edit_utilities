@@ -11,4 +11,11 @@ config = T.let(Config.parse_config!(options.config_file), Config)
 # set up our new client
 client = TumblrClient.new(config.tumblr_api_credentials)
 
-Command::PrivatizePosts.call(options, config, client)
+case options.command
+when Command::Command::PrivatizePosts
+  Command::PrivatizePosts.call(options, config, client)
+when Command::Command::UpdateCommunityLabels
+  Command::UpdateCommunityLabels.call(options, config, client)
+else
+  raise "Un-implemented command #{options.command}. Please implement the command."
+end

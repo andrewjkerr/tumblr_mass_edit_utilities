@@ -43,9 +43,24 @@ class TumblrClient
     )
   end
 
-  sig {params(tumblelog_url: String, post_id: String, state: Post::State).void}
-  def edit(tumblelog_url, post_id, state)
-    make_request {@client.edit(tumblelog_url, id: post_id, state: state.serialize)}
+  sig do
+    params(
+      tumblelog_url: String,
+      post_id: String,
+      state: T.nilable(Post::State),
+      community_label_categories: T.nilable(T::Array[Post::CommunityLabelCategory])
+    ).void
+  end
+  def edit(tumblelog_url, post_id, state: nil, community_label_categories: nil)
+    payload = {id: post_id}
+    payload[:state] = state.serialize unless state.nil?
+
+    unless community_label_categories.nil?
+      payload[:community_label_categories] = community_label_categories.map {|label| label.serialize}
+      payload[:has_community_label] = !payload[:community_label_categories].empty?
+    end
+
+    make_request {@client.edit(tumblelog_url, payload)}
   end
 
   sig {void}

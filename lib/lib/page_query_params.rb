@@ -5,7 +5,7 @@ class PageQueryParams < T::Struct
 
   const :limit, Integer, default: POST_GET_LIMIT
 
-  prop :before, Integer
+  prop :before, T.nilable(Integer)
   prop :tumblelog, String
   prop :page_number, T.nilable(String)
   prop :tag, T.nilable(String)

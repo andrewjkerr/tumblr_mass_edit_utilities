@@ -6,7 +6,7 @@ class Stats < T::Struct
   prop :loop_iterations, Integer, default: 0
   prop :total_posts, Integer, default: 0
   prop :published_posts, Integer, default: 0
-  prop :posts_turned_private, Integer, default: 0
+  prop :posts_updated, Integer, default: 0
 
   sig {void}
   def print!

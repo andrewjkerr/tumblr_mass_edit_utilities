@@ -9,12 +9,8 @@
 # wrong constant name <Magic>
 # wrong constant name <Magic>
 # wrong constant name <Class:<Magic>>
-# wrong constant name <PackageRegistry>
-# wrong constant name <PackageRegistry>
 # wrong constant name <PackageSpecRegistry>
 # wrong constant name <PackageSpecRegistry>
-# wrong constant name <PackageTests>
-# wrong constant name <PackageTests>
 # wrong constant name <RESERVED_0>
 # wrong constant name <RESERVED_1>
 # wrong constant name <RESERVED_2>
@@ -32,6 +28,7 @@
 # uninitialized constant Abbrev
 # uninitialized constant Abbrev
 # wrong constant name connect_internal
+# wrong constant name inherited
 # wrong constant name deconstruct
 # wrong constant name shelljoin
 # wrong constant name to_h
@@ -938,7 +935,8 @@
 # uninitialized constant Bundler::URI::FTP::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::FTP::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::FTP::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::FTP::REGISTRY
@@ -1004,7 +1002,8 @@
 # uninitialized constant Bundler::URI::File::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::File::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::File::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::File::REGISTRY
@@ -1073,7 +1072,8 @@
 # uninitialized constant Bundler::URI::Generic::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::Generic::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::Generic::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::Generic::REGISTRY
@@ -1192,7 +1192,8 @@
 # uninitialized constant Bundler::URI::HTTP::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::HTTP::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::HTTP::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::HTTP::REGISTRY
@@ -1256,7 +1257,8 @@
 # uninitialized constant Bundler::URI::HTTPS::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::HTTPS::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::HTTPS::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::HTTPS::REGISTRY
@@ -1320,7 +1322,8 @@
 # uninitialized constant Bundler::URI::LDAP::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::LDAP::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::LDAP::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::LDAP::REGISTRY
@@ -1399,7 +1402,8 @@
 # uninitialized constant Bundler::URI::LDAPS::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::LDAPS::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::LDAPS::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::LDAPS::REGISTRY
@@ -1469,7 +1473,8 @@
 # uninitialized constant Bundler::URI::MailTo::OPAQUE
 # Did you mean?  Bundler::URI::OPAQUE
 # uninitialized constant Bundler::URI::MailTo::PORT
-# Did you mean?  Bundler::URI::PORT
+# Did you mean?  Post
+#                Bundler::URI::PORT
 # uninitialized constant Bundler::URI::MailTo::QUERY
 # Did you mean?  Bundler::URI::QUERY
 # uninitialized constant Bundler::URI::MailTo::REGISTRY
@@ -1697,7 +1702,6 @@
 # wrong constant name _dump
 # wrong constant name initialize
 # wrong constant name _load
-# wrong constant name sum
 # wrong constant name +
 # wrong constant name <Class:ArithmeticSequence>
 # wrong constant name <Class:Chain>
@@ -1715,11 +1719,8 @@
 # wrong constant name <static-init>
 # wrong constant name each
 # wrong constant name initialize
-# wrong constant name eager
 # wrong constant name each
 # wrong constant name <static-init>
-# wrong constant name to_proc
-# wrong constant name produce
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name <static-init>
@@ -2046,12 +2047,12 @@
 # Did you mean?  FileUtils::VERSION
 # uninitialized constant Find
 # uninitialized constant Find
+# wrong constant name <Class:Find>
 # wrong constant name _compile_method
 # wrong constant name _delegator_method
 # wrong constant name _valid_method?
 # wrong constant name debug
 # wrong constant name debug=
-# wrong constant name receiver
 # wrong constant name garbage_collect
 # wrong constant name verify_transient_heap_internal_consistency
 # uninitialized constant GDBM
@@ -2318,7 +2319,6 @@
 # wrong constant name nread
 # wrong constant name pathconf
 # wrong constant name ready?
-# wrong constant name set_encoding_by_bom
 # wrong constant name wait
 # wrong constant name wait_readable
 # wrong constant name wait_writable
@@ -2342,10 +2342,6 @@
 # uninitialized constant Jacobian
 # uninitialized constant Kconv
 # uninitialized constant Kconv
-# wrong constant name itself
-# wrong constant name object_id
-# wrong constant name then
-# wrong constant name yield_self
 # wrong constant name at_exit
 # uninitialized constant LUSolve
 # uninitialized constant LUSolve
@@ -2507,12 +2503,6 @@
 # Did you mean?  OpenSSL::Digest::SHA1
 # uninitialized constant OpenSSL::Digest::SHA
 # Did you mean?  OpenSSL::Digest::SHA1
-# wrong constant name <Class:KDFError>
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name hkdf
-# wrong constant name pbkdf2_hmac
-# wrong constant name scrypt
 # wrong constant name signed?
 # uninitialized constant OpenSSL::PKCS5::PKCS5Error
 # uninitialized constant OpenSSL::PKCS5::PKCS5Error
@@ -2543,6 +2533,7 @@
 # wrong constant name get_candidates
 # wrong constant name additional
 # wrong constant name additional=
+# wrong constant name inherited
 # uninitialized constant PP
 # uninitialized constant PP
 # uninitialized constant PStore
@@ -2552,6 +2543,8 @@
 # uninitialized constant PackageSpec
 # uninitialized constant PackageSpec
 # wrong constant name <Class:PackageSpec>
+# wrong constant name inherited
+# wrong constant name inherited
 # uninitialized constant PrettyPrint
 # uninitialized constant PrettyPrint
 # uninitialized constant Prime
@@ -2602,6 +2595,8 @@
 # uninitialized constant Racc
 # uninitialized constant Ractor
 # uninitialized constant Ractor
+# uninitialized constant Rake
+# uninitialized constant Rake
 # wrong constant name bytes
 # wrong constant name %
 # wrong constant name entries
@@ -2611,6 +2606,10 @@
 # wrong constant name ruby
 # uninitialized constant Readline
 # uninitialized constant Readline
+# uninitialized constant Reline
+# uninitialized constant Reline
+# wrong constant name inherited
+# wrong constant name inherited
 # uninitialized constant Rinda
 # uninitialized constant Rinda
 # uninitialized constant Ripper
@@ -2688,6 +2687,7 @@
 # Did you mean?  TRUE
 # uninitialized constant Socket::WRONLY
 # Did you mean?  Socket::RDONLY
+# wrong constant name inherited
 # wrong constant name shellescape
 # wrong constant name shellsplit
 # wrong constant name set_encoding_by_bom
@@ -2697,6 +2697,14 @@
 # wrong constant name deconstruct
 # wrong constant name deconstruct_keys
 # wrong constant name filter
+# uninitialized constant Struct::CompletionJourneyData
+# Did you mean?  CompositeReadIO
+# uninitialized constant Struct::CompletionJourneyData
+# Did you mean?  CompositeReadIO
+# uninitialized constant Struct::Key
+# uninitialized constant Struct::Key
+# uninitialized constant Struct::MenuInfo
+# uninitialized constant Struct::MenuInfo
 # wrong constant name <Class:Struct>
 # uninitialized constant Sync
 # uninitialized constant Sync
@@ -2717,7 +2725,7 @@
 # Did you mean?  TracePoint
 # uninitialized constant Tracer
 # Did you mean?  TracePoint
-# wrong constant name <Class:File>
+# wrong constant name inherited
 # wrong constant name new2
 # uninitialized constant URI::File::ABS_PATH
 # Did you mean?  URI::ABS_PATH
@@ -2739,7 +2747,8 @@
 # uninitialized constant URI::File::OPAQUE
 # Did you mean?  URI::OPAQUE
 # uninitialized constant URI::File::PORT
-# Did you mean?  URI::PORT
+# Did you mean?  Post
+#                URI::PORT
 # uninitialized constant URI::File::QUERY
 # Did you mean?  URI::QUERY
 # uninitialized constant URI::File::REGISTRY
@@ -2783,7 +2792,6 @@
 # wrong constant name check_user
 # wrong constant name check_userinfo
 # wrong constant name set_userinfo
-# wrong constant name <static-init>
 # wrong constant name attributes
 # wrong constant name attributes=
 # wrong constant name dn

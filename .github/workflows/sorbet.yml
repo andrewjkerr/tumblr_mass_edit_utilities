@@ -7,7 +7,7 @@ on:
   pull_request: # Trigger All PRs
 
 jobs:
-  rspec:
+  sorbet:
     runs-on: ubuntu-latest
 
     strategy:

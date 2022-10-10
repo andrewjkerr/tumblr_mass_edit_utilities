@@ -22,17 +22,17 @@ Each command allows for an optional tag & start date to filter on which publishe
 
 ### PrivatizePosts
 
-To run the PrivatizePosts command, use the `--command=PrivatizePosts` flag:
+To run the PrivatizePosts command, use the `PrivatizePosts` argument:
 
-1. Run `ruby script.rb --command-PrivatizePosts --state_date=YYYY-MM-DD`
-    * `ruby script.rb --help` will list all of the available options.
+1. Run `ruby script.rb PrivatizePosts --state_date=YYYY-MM-DD`
+    * `ruby script.rb PrivatizePosts --help` will list all of the available options.
 
 ### UpdateCommunityLabels
 
-To run the UpdateCommunityLabels command, use the `--command=UpdateCommunityLabels` flag:
+To run the UpdateCommunityLabels command, use the `UpdateCommunityLabels` argument:
 
-1. Run `ruby script.rb --command-PrivatizePosts --community_labels=sexual_themes,violence,drug_use`
-    * `ruby script.rb --help` will list all of the available options.
+1. Run `ruby script.rb UpdateCommunityLabels --community_labels=sexual_themes,violence,drug_use`
+    * `ruby script.rb UpdateCommunityLabels --help` will list all of the available options.
 
 ## Development
 
@@ -92,7 +92,7 @@ when Command::Command::NewCommand
 And then you can call it via:
 
 ```bash
-ruby script.rb --command=NewCommand
+ruby script.rb NewCommand
 ```
 
 ## Need help?

@@ -1,5 +1,7 @@
 # typed: strict
 
+class Command; end;
+class Command::Base; end;
 class Command::Base::IterateThroughPosts < Command
   extend T::Sig
 

@@ -12,13 +12,23 @@ class Options < T::Struct
   prop :config_file, String, default: Config::DEFAULT_CONFIG_FILE_PATH
   prop :verbose, T::Boolean, default: false
   prop :tag, T.nilable(String)
-  prop :command, T.nilable(Command::Command) # this is required for execution
+  prop :command, Command::Command # this is required for execution
   prop :community_label_categories, T.nilable(T::Array[Post::CommunityLabelCategory])
 
   sig {returns(Options)}
   def self.parse_options
+    command = ARGV[0]
+
+    begin
+      command = Command::Command.deserialize(command.downcase)
+    rescue
+      raise "Command #{command} is not valid. Valid commands: #{self.enumerate_enum_values(Command::Command)}."
+    end
+
     # make a "default" options struct that we will change in the options below
-    options = Options.new
+    options = Options.new(
+      command: command,
+    )
 
     # having the start_date option default to today can be somewhat jarring for users of previous verison
     # so, we'll ask the user if they want to continue with the default option if they don't set their own
@@ -27,40 +37,36 @@ class Options < T::Struct
     OptionParser.new do |opts|
       opts.banner = 'Usage: ruby script.rb [options]'
 
-      opts.on('-cCOMMAND', '--command=COMMAND', "(required) The command to run. Valid commands: #{self.enumerate_enum_values(Command::Command)}.") do |c|
-        begin
-          options.command = Command::Command.deserialize(c.downcase)
-        rescue
-          raise "Command #{c} is not valid. Valid commands: #{self.enumerate_enum_values(Command::Command)}."
-        end
-      end
-
       opts.on('-dSTART_DATE', '--start_date=START_DATE', 'The date to start privatizing posts, in YYYY-DD-MM format (default: today)') do |d|
         options.beginning_timestamp = Options.calculate_beginning_timestamp!(d)
         continue_prompt = false
       end
 
-      opts.on('--tTAG', '--tag=TAG', 'The tag of the posts to turn private') do |t|
+      opts.on('-tTAG', '--tag=TAG', 'The tag of the posts to turn private') do |t|
         options.tag = t
       end
 
-      opts.on('--lLABELS', '--labels=LABELS', "(required for UpdateCommunityLabels) A comma separated array of community labels to update posts with. Valid community labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}.") do |l|
-        community_label_categories = []
-        labels = l.split(',').map {|label| label.strip}
-        unless labels.empty?
-          labels.each do |label|
-            begin
-              community_label_categories << Post::CommunityLabelCategory.deserialize(label.downcase)
-            rescue
-              raise "Community label category #{label} is not valid. Valid labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}."
+      opts.on('-v', '--verbose', 'Print debug-y information') { options.verbose = true }
+
+      # individual command options
+      case options.command
+      when Command::Command::UpdateCommunityLabels
+        opts.on('-lLABELS', '--labels=LABELS', "(required) A comma separated array of community labels to update posts with. Valid community labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}.") do |l|
+          community_label_categories = []
+          labels = l.split(',').map {|label| label.strip}
+          unless labels.empty?
+            labels.each do |label|
+              begin
+                community_label_categories << Post::CommunityLabelCategory.deserialize(label.downcase)
+              rescue
+                raise "Community label category #{label} is not valid. Valid labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}."
+              end
             end
           end
+
+          options.community_label_categories = community_label_categories
         end
-
-        options.community_label_categories = community_label_categories
       end
-
-      opts.on('-v', '--verbose', 'Print debug-y information') { options.verbose = true }
 
       opts.on('-h', '--help', 'Prints this help') do
         puts opts

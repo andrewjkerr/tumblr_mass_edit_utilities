@@ -15,6 +15,7 @@ GEM
     sorbet (0.5.10482)
       sorbet-static (= 0.5.10482)
     sorbet-runtime (0.5.10482)
+    sorbet-static (0.5.10482-universal-darwin-21)
     sorbet-static (0.5.10482-x86_64-linux)
     sorbet-static-and-runtime (0.5.10482)
       sorbet (= 0.5.10482)
@@ -28,6 +29,7 @@ GEM
       simple_oauth
 
 PLATFORMS
+  x86_64-darwin-21
   x86_64-linux
 
 DEPENDENCIES

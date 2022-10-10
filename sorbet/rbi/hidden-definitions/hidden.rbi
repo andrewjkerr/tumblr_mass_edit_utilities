@@ -7,6 +7,10 @@ class Addrinfo
   def connect_internal(local_addrinfo, timeout=T.unsafe(nil)); end
 end
 
+class ApplicationConfig
+  def self.inherited(s); end
+end
+
 class Array
   include ::JSON::Ext::Generator::GeneratorMethods::Array
   def deconstruct(); end
@@ -2482,6 +2486,21 @@ class Class
   def json_creatable?(); end
 end
 
+class Command::Base::IterateThroughPosts
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class Command::PrivatizePosts
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class Command::UpdateCommunityLabels
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Date
   def infinite?(); end
   VERSION = ::T.let(nil, ::T.untyped)
@@ -2659,10 +2678,6 @@ class Encoding
   def self._load(arg); end
 end
 
-module Enumerable
-  def sum(*arg); end
-end
-
 class Enumerator
   def +(arg); end
 
@@ -2698,23 +2713,11 @@ class Enumerator::Generator
   def initialize(*arg); end
 end
 
-class Enumerator::Lazy
-  def eager(); end
-end
-
 class Enumerator::Producer
   def each(&blk); end
 end
 
 class Enumerator::Producer
-end
-
-class Enumerator::Yielder
-  def to_proc(); end
-end
-
-class Enumerator
-  def self.produce(*arg); end
 end
 
 class Errno::EAUTH
@@ -3671,10 +3674,6 @@ module Forwardable
   def self.debug=(debug); end
 end
 
-class FrozenError
-  def receiver(); end
-end
-
 module GC
   def garbage_collect(full_mark: T.unsafe(nil), immediate_mark: T.unsafe(nil), immediate_sweep: T.unsafe(nil)); end
 end
@@ -4350,8 +4349,6 @@ class IO
 
   def ready?(); end
 
-  def set_encoding_by_bom(); end
-
   def wait(*arg); end
 
   def wait_readable(*arg); end
@@ -4405,16 +4402,6 @@ module JSON
   def self.load_file(filespec, opts=T.unsafe(nil)); end
 
   def self.load_file!(filespec, opts=T.unsafe(nil)); end
-end
-
-module Kernel
-  def itself(); end
-
-  def object_id(); end
-
-  def then(); end
-
-  def yield_self(); end
 end
 
 module Kernel
@@ -4696,9 +4683,7 @@ class Object
   ARGF = ::T.let(nil, ::T.untyped)
   ARGV = ::T.let(nil, ::T.untyped)
   CROSS_COMPILING = ::T.let(nil, ::T.untyped)
-  DEFAULT_CONFIG_FILE_PATH = ::T.let(nil, ::T.untyped)
   ENV = ::T.let(nil, ::T.untyped)
-  POST_GET_LIMIT = ::T.let(nil, ::T.untyped)
   RUBY_COPYRIGHT = ::T.let(nil, ::T.untyped)
   RUBY_DESCRIPTION = ::T.let(nil, ::T.untyped)
   RUBY_ENGINE = ::T.let(nil, ::T.untyped)
@@ -4732,23 +4717,6 @@ class OpenSSL::BN
   def /(arg); end
 
   def negative?(); end
-end
-
-module OpenSSL::KDF
-end
-
-class OpenSSL::KDF::KDFError
-end
-
-class OpenSSL::KDF::KDFError
-end
-
-module OpenSSL::KDF
-  def self.hkdf(*arg); end
-
-  def self.pbkdf2_hmac(*arg); end
-
-  def self.scrypt(*arg); end
 end
 
 class OpenSSL::OCSP::Request
@@ -4907,6 +4875,22 @@ class OptionParser::ParseError
   def additional=(additional); end
 end
 
+class Options
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.inherited(s); end
+end
+
+class PageQueryParams
+  def self.inherited(s); end
+end
+
+class Post
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.inherited(s); end
+end
+
 class Proc
   def <<(arg); end
 
@@ -4961,6 +4945,21 @@ module RbConfig
   def self.fire_update!(key, val, mkconf=T.unsafe(nil), conf=T.unsafe(nil)); end
 
   def self.ruby(); end
+end
+
+class Response::Error
+  def self.inherited(s); end
+end
+
+class Response::Posts
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.inherited(s); end
+end
+
+class Response
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 module RubyVM::MJIT
@@ -5188,6 +5187,12 @@ module Socket::Constants
   TCP_NOPUSH = ::T.let(nil, ::T.untyped)
 end
 
+class Stats
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.inherited(s); end
+end
+
 class String
   include ::JSON::Ext::Generator::GeneratorMethods::String
   def shellescape(); end
@@ -5258,6 +5263,15 @@ module Tumblr::Post
   VALID_POST_TYPES = ::T.let(nil, ::T.untyped)
 end
 
+class TumblrApiCredential
+  def self.inherited(s); end
+end
+
+class TumblrClient
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 module URI
   include ::URI::RFC2396_REGEXP
 end
@@ -5276,9 +5290,6 @@ class URI::File
   def set_userinfo(v); end
   COMPONENT = ::T.let(nil, ::T.untyped)
   DEFAULT_PORT = ::T.let(nil, ::T.untyped)
-end
-
-class URI::File
 end
 
 class URI::LDAP
@@ -5318,10 +5329,6 @@ end
 class URI::MailTo
   def initialize(*arg); end
 end
-
-URI::Parser = URI::RFC2396_Parser
-
-URI::REGEXP = URI::RFC2396_REGEXP
 
 class URI::RFC2396_Parser
   def initialize(opts=T.unsafe(nil)); end

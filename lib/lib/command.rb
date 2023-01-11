@@ -7,6 +7,7 @@ class Command
     enums do
       Help = new('--help') # an "empty" command to support `--help` prompts
       PrivatizePosts = new
+      SnoozeLive = new
       UpdateCommunityLabels = new
     end
   end

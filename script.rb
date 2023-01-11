@@ -14,6 +14,8 @@ client = TumblrClient.new(config.tumblr_api_credentials)
 case options.command
 when Command::Command::PrivatizePosts
   Command::PrivatizePosts.call(options, config, client)
+when Command::Command::SnoozeLive
+  Command::SnoozeLive.call(options, config, client)
 when Command::Command::UpdateCommunityLabels
   Command::UpdateCommunityLabels.call(options, config, client)
 else

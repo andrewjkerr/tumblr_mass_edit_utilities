@@ -66,6 +66,8 @@ class Options < T::Struct
 
           options.community_label_categories = community_label_categories
         end
+      when Command::Command::SnoozeLive
+        continue_prompt = false
       end
 
       opts.on('-h', '--help', 'Prints this help') do

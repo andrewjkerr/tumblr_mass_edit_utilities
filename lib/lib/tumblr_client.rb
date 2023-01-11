@@ -63,6 +63,12 @@ class TumblrClient
     make_request {@client.edit(tumblelog_url, payload)}
   end
 
+  sig {params(settings_to_update: T::Hash[Symbol, T.untyped]).void}
+  def update_settings(settings_to_update)
+    return if settings_to_update.empty?
+    make_request {@client.post("v2/user/settings", settings_to_update)}
+  end
+
   sig {void}
   def client_from_next_creds!
     # get the next set of credentials; throw an error if there are none!

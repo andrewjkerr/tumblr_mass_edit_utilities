@@ -19,12 +19,12 @@ on:
   status: {}
 jobs:
   automerge:
+    if: github.actor == 'dependabot'
     runs-on: ubuntu-latest
     steps:
       - id: automerge
         name: automerge
         uses: 'pascalgn/automerge-action@v0.15.5'
-        if: ${{ github.actor == "dependabot" }}
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           MERGE_LABELS: 'dependencies'

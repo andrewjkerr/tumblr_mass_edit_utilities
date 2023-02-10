@@ -23,8 +23,8 @@ jobs:
     steps:
       - id: automerge
         name: automerge
-        if: github.actor == "dependabot"
         uses: 'pascalgn/automerge-action@v0.15.5'
+        if: ${{ github.actor == "dependabot" }}
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           MERGE_LABELS: 'dependencies'

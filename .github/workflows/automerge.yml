@@ -22,11 +22,19 @@ jobs:
     if: github.actor == 'dependabot' || github.actor == 'andrewjkerr'
     runs-on: ubuntu-latest
     steps:
+      - id: wait-for-sorbet
+        name: Wait for Sorbet to succeed
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: master
+          check-name: Sorbet
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20
       - id: automerge
         name: automerge
         uses: 'pascalgn/automerge-action@v0.15.5'
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          MERGE_LABELS: 'dependencies'
+          MERGE_LABELS: 'automerge,dependencies'
           MERGE_METHOD: 'squash'
           MERGE_DELETE_BRANCH: true

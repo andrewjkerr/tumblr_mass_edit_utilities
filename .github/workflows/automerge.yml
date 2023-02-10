@@ -19,7 +19,7 @@ on:
   status: {}
 jobs:
   automerge:
-    if: github.actor == 'dependabot'
+    if: github.actor == 'dependabot' || github.actor == 'andrewjkerr'
     runs-on: ubuntu-latest
     steps:
       - id: automerge
@@ -28,3 +28,4 @@ jobs:
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           MERGE_LABELS: 'dependencies'
+          MERGE_METHOD: 'squash'

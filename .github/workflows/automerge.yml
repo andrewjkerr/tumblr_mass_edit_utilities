@@ -19,7 +19,7 @@ on:
   status: {}
 jobs:
   automerge:
-    if: github.actor == 'dependabot' || github.actor == 'andrewjkerr'
+    if: github.actor == 'dependabot[bot]' || github.actor == 'andrewjkerr'
     runs-on: ubuntu-latest
     steps:
       - id: wait-for-sorbet

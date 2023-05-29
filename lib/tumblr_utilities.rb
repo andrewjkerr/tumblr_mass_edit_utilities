@@ -22,8 +22,10 @@ require_relative('lib/options.rb')
 
 # load in our commands!
 # load this one first
+require_relative('command/base/iterate_through_likes.rb')
 require_relative('command/base/iterate_through_posts.rb')
 
 # and then these
+require_relative('command/clear_likes.rb')
 require_relative('command/privatize_posts.rb')
 require_relative('command/update_community_labels.rb')

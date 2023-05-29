@@ -21,6 +21,7 @@ class Post < T::Struct
 
   const :id, String
   const :post_url, String
+  const :reblog_key, String
   const :state, State
   const :is_pinned, T::Boolean
   const :date, String
@@ -36,6 +37,7 @@ class Post < T::Struct
     Post.new(
       id: post.dig('id_string'),
       post_url: post.dig('post_url'),
+      reblog_key: post.dig('reblog_key'),
       state: State.deserialize(post.dig('state')),
       is_pinned: post.dig('is_pinned') || false,
       date: post.dig('date'),

@@ -12,6 +12,8 @@ config = T.let(Config.parse_config!(options.config_file), Config)
 client = TumblrClient.new(config.tumblr_api_credentials)
 
 case options.command
+when Command::Command::ClearLikes
+  Command::ClearLikes.call(options, config, client)
 when Command::Command::PrivatizePosts
   Command::PrivatizePosts.call(options, config, client)
 when Command::Command::UpdateCommunityLabels

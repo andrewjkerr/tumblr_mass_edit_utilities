@@ -6,17 +6,18 @@ class Response
   class Posts < T::Struct
     extend T::Sig
 
-    const :posts, T::Array[Post]
+    const :next_before, T.nilable(Integer)
     const :next_page_number, T.nilable(String)
+    const :posts, T::Array[Post]
 
     sig {returns(T::Boolean)}
     def has_posts?
       !self.posts.empty?
     end
-  
+
     sig {returns(T::Boolean)}
     def has_next_page?
-      !self.next_page_number.nil?
+      !self.next_page_number.nil? || !self.next_before.nil?
     end
   end
 

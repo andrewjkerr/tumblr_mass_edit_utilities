@@ -43,6 +43,21 @@ class TumblrClient
     )
   end
 
+  sig {params(next_page_params: PageQueryParams).returns(Response::Posts)}
+  def likes(next_page_params)
+    response = make_request do
+      @client.likes(next_page_params.serialize.transform_keys(&:to_sym))
+    end
+
+    posts = Post.from_response_posts_array(response.dig('liked_posts') || T.let([], T::Array[Post]))
+    next_before = response.dig('_links', 'next', 'query_params', 'before').to_i
+
+    return Response::Posts.new(
+      posts: posts,
+      next_before: next_before,
+    )
+  end
+
   sig do
     params(
       tumblelog_url: String,

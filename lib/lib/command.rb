@@ -5,6 +5,7 @@ class Command
 
   class Command < T::Enum
     enums do
+      ClearLikes = new
       Help = new('--help') # an "empty" command to support `--help` prompts
       PrivatizePosts = new
       UpdateCommunityLabels = new

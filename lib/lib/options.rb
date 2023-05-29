@@ -110,7 +110,7 @@ class Options < T::Struct
     puts "Thanks for letting me double check! Continuing..."
   end
 
-  sig {params(klass: Class).returns(String)}
+  sig {params(klass: T::Class[T.anything]).returns(String)}
   def self.enumerate_enum_values(klass)
     raise "Class #{klass.class.name} does not inherit from T::Enum" unless klass < T::Enum
     klass.values.map {|value| value.serialize}.join(', ')

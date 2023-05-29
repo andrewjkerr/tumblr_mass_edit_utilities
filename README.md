@@ -4,8 +4,9 @@
 
 This is a collection of utilities ("commands") to mass edit posts on a Tumblr blog.
 
-There are currently two commands that are supported:
+There are currently three commands that are supported:
 
+1. `ClearLikes`: Unlikes all previously liked posts.
 1. `PrivatizePosts`: Turns all published posts private.
 1. `UpdateCommunityLabels`: Updates the community labels on all published posts.
 
@@ -19,6 +20,13 @@ Each command allows for an optional tag & start date to filter on which publishe
     * If you have more than 1k posts that you want to make private, you'll need to have "backup" API keys & OAuth tokens by adding more than one set of credentials to the config. I recommend having at least one set of key per every ~950 posts or so.
         * ⚠️ Please take caution when doing this! This may be against Tumblr's terms of service.
 1. Change the `tumblr_blog_url` in the configuration file to your blog URL.
+
+### ClearLikes
+
+To run the ClearLikes command, use the `ClearLikes` argument:
+
+1. Run `ruby script.rb ClearLikes`
+    * `ruby script.rb ClearLikes --help` will list all of the available options.
 
 ### PrivatizePosts
 

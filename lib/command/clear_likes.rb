@@ -7,7 +7,7 @@ class Command::ClearLikes < Command
   def call(options, config, client)
     Base::IterateThroughLikes.call(options, config, client) do |post|
       puts "Unliking #{post.id} (#{post.post_url})" if options.verbose
-      # do something
+      client.unlike(post)
     end
   end
 end

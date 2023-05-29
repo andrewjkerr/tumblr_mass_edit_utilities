@@ -78,6 +78,13 @@ class TumblrClient
     make_request {@client.edit(tumblelog_url, payload)}
   end
 
+  sig do
+    params(post: Post).void
+  end
+  def unlike(post)
+    make_request {@client.unlike(post.id, post.reblog_key)}
+  end
+
   sig {void}
   def client_from_next_creds!
     # get the next set of credentials; throw an error if there are none!

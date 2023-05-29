@@ -15,8 +15,15 @@ GEM
     sorbet (0.5.10847)
       sorbet-static (= 0.5.10847)
     sorbet-runtime (0.5.10847)
+    sorbet-static (0.5.10847-universal-darwin-14)
+    sorbet-static (0.5.10847-universal-darwin-15)
+    sorbet-static (0.5.10847-universal-darwin-16)
+    sorbet-static (0.5.10847-universal-darwin-17)
+    sorbet-static (0.5.10847-universal-darwin-18)
     sorbet-static (0.5.10847-universal-darwin-19)
+    sorbet-static (0.5.10847-universal-darwin-20)
     sorbet-static (0.5.10847-universal-darwin-21)
+    sorbet-static (0.5.10847-universal-darwin-22)
     sorbet-static (0.5.10847-x86_64-linux)
     sorbet-static-and-runtime (0.5.10847)
       sorbet (= 0.5.10847)
@@ -39,7 +46,7 @@ DEPENDENCIES
   tumblr_client (~> 0.8.5)
 
 RUBY VERSION
-   ruby 2.7.5p203
+   ruby 2.7.6p219
 
 BUNDLED WITH
    2.2.14

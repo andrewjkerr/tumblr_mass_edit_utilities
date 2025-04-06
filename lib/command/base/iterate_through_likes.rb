@@ -33,6 +33,8 @@ class Command::Base::IterateThroughLikes < Command
 
         # Iterate over each post and turn them to private.
         response.posts.each do |post|
+          next if should_skip_post?(options, post)
+
           yield(post)
 
           # ++ posts_updated
@@ -58,5 +60,14 @@ class Command::Base::IterateThroughLikes < Command
     end
 
     stats.print!
+  end
+
+  sig {params(options: Options, post: Post).returns(T::Boolean)}
+  def should_skip_post?(options, post)
+    # Convert post.date to a timestamp
+    post_date_timestamp = DateTime.parse(post.date).to_time.to_i
+
+    # For likes, we're skipping posts that were published past the start date provided.
+    post_date_timestamp > options.beginning_timestamp
   end
 end

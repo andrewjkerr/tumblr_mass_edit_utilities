@@ -12,14 +12,14 @@ GEM
     multipart-post (2.1.1)
     oauth (0.5.5)
     simple_oauth (0.3.1)
-    sorbet (0.5.11247)
-      sorbet-static (= 0.5.11247)
-    sorbet-runtime (0.5.11247)
-    sorbet-static (0.5.11247-universal-darwin)
-    sorbet-static (0.5.11247-x86_64-linux)
-    sorbet-static-and-runtime (0.5.11247)
-      sorbet (= 0.5.11247)
-      sorbet-runtime (= 0.5.11247)
+    sorbet (0.5.11366)
+      sorbet-static (= 0.5.11366)
+    sorbet-runtime (0.5.11366)
+    sorbet-static (0.5.11366-universal-darwin)
+    sorbet-static (0.5.11366-x86_64-linux)
+    sorbet-static-and-runtime (0.5.11366)
+      sorbet (= 0.5.11366)
+      sorbet-runtime (= 0.5.11366)
     tumblr_client (0.8.5)
       faraday (~> 0.9.0)
       faraday_middleware (~> 0.9.0)
@@ -33,7 +33,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  sorbet-static-and-runtime (~> 0.5.11247)
+  sorbet-static-and-runtime (~> 0.5.11366)
   tumblr_client (~> 0.8.5)
 
 RUBY VERSION

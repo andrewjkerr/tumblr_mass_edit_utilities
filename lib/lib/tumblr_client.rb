@@ -6,9 +6,10 @@ class TumblrClient
   sig {returns(Tumblr::Client)}
   attr_reader :client
 
-  sig {params(tumblr_api_credentials: T::Array[TumblrApiCredential]).void}
-  def initialize(tumblr_api_credentials)
+  sig {params(tumblr_api_credentials: T::Array[TumblrApiCredential], options: Options).void}
+  def initialize(tumblr_api_credentials, options)
     @tumblr_api_credentials = tumblr_api_credentials
+    @options = options
 
     # we validate whether or not we actually have credentials when we load the config
     # so we can use `T.must`
@@ -90,6 +91,8 @@ class TumblrClient
     # get the next set of credentials; throw an error if there are none!
     new_tumblr_api_creds = @tumblr_api_credentials.shift
     raise 'No more Tumblr API credentials to use' if new_tumblr_api_creds.nil?
+
+    puts "Switching API creds. Remaining creds: #{@tumblr_api_credentials.size}" if @options.verbose
 
     # instantiate a new client to use
     @client = TumblrClient.client_from_tumblr_api_credential(new_tumblr_api_creds)

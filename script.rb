@@ -9,7 +9,7 @@ options = T.let(Options.parse_options, Options)
 config = T.let(Config.parse_config!(options.config_file), Config)
 
 # set up our new client
-client = TumblrClient.new(config.tumblr_api_credentials)
+client = TumblrClient.new(config.tumblr_api_credentials, options)
 
 case options.command
 when Command::Command::ClearLikes

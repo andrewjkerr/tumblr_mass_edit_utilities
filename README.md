@@ -25,7 +25,7 @@ Each command allows for an optional tag & start date to filter on which publishe
 
 To run the ClearLikes command, use the `ClearLikes` argument:
 
-1. Run `ruby script.rb ClearLikes`
+1. Run `ruby script.rb ClearLikes --state_date=YYYY-MM-DD`
     * `ruby script.rb ClearLikes --help` will list all of the available options.
 
 ### PrivatizePosts

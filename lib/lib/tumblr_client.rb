@@ -108,11 +108,18 @@ class TumblrClient
 
       # check if we're rate limited or if we have an unknown error
       while is_rate_limited?(response)
-        # if we are rate limited, instantiate a new client and re-try the request!
-        client_from_next_creds!
+        # First, sleep for a minute to clear the IP rate limit
+        puts 'Potentially IP rate limited. Sleeping for 60 seconds...' if @options.verbose
+        sleep(60)
         retry_response = Response.from_response_hash(block.call)
         return retry_response unless retry_response.is_a?(Response::Error)
-        response = retry_response
+
+        # If the sleep didn't work, instantiate a new client and re-try the request!
+        puts 'Potentially API key rate limited. Trying a new client...' if @options.verbose
+        client_from_next_creds!
+        new_client_response = Response.from_response_hash(block.call)
+        return new_client_response unless new_client_response.is_a?(Response::Error)
+        response = new_client_response
       end
 
       puts "Funky error: #{response.serialize}" if is_rate_limited?(response)

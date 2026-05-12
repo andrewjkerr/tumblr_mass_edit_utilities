@@ -102,27 +102,28 @@ class TumblrClient
     sig {params(block: Proc).returns(T::Hash[String, T.untyped])}
     def make_request(&block)
       response = Response.from_response_hash(block.call)
-
-      # if the response isn't an error, return it!
       return response unless response.is_a?(Response::Error)
 
-      # check if we're rate limited or if we have an unknown error
-      while is_rate_limited?(response)
-        # First, sleep for a minute to clear the IP rate limit
-        puts 'Potentially IP rate limited. Sleeping for 60 seconds...' if @options.verbose
-        sleep(60)
-        retry_response = Response.from_response_hash(block.call)
-        return retry_response unless retry_response.is_a?(Response::Error)
-
-        # If the sleep didn't work, instantiate a new client and re-try the request!
-        puts 'Potentially API key rate limited. Trying a new client...' if @options.verbose
-        client_from_next_creds!
-        new_client_response = Response.from_response_hash(block.call)
-        return new_client_response unless new_client_response.is_a?(Response::Error)
-        response = new_client_response
+      unless is_rate_limited?(response)
+        puts "Funky error: #{response.serialize}"
+        return response.serialize
       end
 
-      puts "Funky error: #{response.serialize}" if is_rate_limited?(response)
+      # Sleep once to give a potential IP-based rate limit time to clear
+      puts 'Potentially IP rate limited. Sleeping for 60 seconds...' if @options.verbose
+      sleep(60)
+      response = Response.from_response_hash(block.call)
+      return response unless response.is_a?(Response::Error)
+
+      # If still rate limited after the sleep, rotate through remaining credentials
+      while is_rate_limited?(response)
+        puts 'Potentially API key rate limited. Trying a new client...' if @options.verbose
+        client_from_next_creds!
+        response = Response.from_response_hash(block.call)
+        return response unless response.is_a?(Response::Error)
+      end
+
+      puts "Funky error: #{response.serialize}"
       response.serialize
     end
 

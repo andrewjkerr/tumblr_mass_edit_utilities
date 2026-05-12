@@ -64,6 +64,10 @@ class Command::Base::IterateThroughLikes < Command
 
   sig {params(options: Options, post: Post).returns(T::Boolean)}
   def should_skip_post?(options, post)
+    # Beginning timestamp is nil if it's not set and, since that's the only way we skip
+    # posts, just return false if it's nil.
+    return false if options.beginning_timestamp.nil?
+
     # Convert post.date to a timestamp
     post_date_timestamp = DateTime.parse(post.date).to_time.to_i
 

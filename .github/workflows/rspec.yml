@@ -1,0 +1,23 @@
+name: RSpec
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.6'
+          bundler-cache: true
+      - run: bundle install
+      - run: bundle exec rspec spec/

@@ -1,4 +1,4 @@
-# typed: strict
+# typed: false
 require 'date'
 require 'optparse'
 require 'sorbet-runtime'

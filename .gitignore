@@ -1,3 +1,4 @@
 output/*
 config/application.yaml
 config/application_config.rb
+.claude/

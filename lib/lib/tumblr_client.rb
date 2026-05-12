@@ -119,8 +119,9 @@ class TumblrClient
       while is_rate_limited?(response)
         puts 'Potentially API key rate limited. Trying a new client...' if @options.verbose
         client_from_next_creds!
-        response = Response.from_response_hash(block.call)
-        return response unless response.is_a?(Response::Error)
+        loop_response = Response.from_response_hash(block.call)
+        return loop_response unless loop_response.is_a?(Response::Error)
+        response = loop_response
       end
 
       puts "Funky error: #{response.serialize}"

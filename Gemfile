@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.4.9'
+ruby '4.0.4'
 
 gem 'faraday', '~> 2.0'
 gem 'simple_oauth', '~> 0.4'

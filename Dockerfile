@@ -1,4 +1,4 @@
-FROM ruby:2.7.6
+FROM ruby:4.0.4
 
 # Set up `/script` as the working directory.
 WORKDIR /script

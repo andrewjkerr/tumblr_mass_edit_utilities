@@ -30,15 +30,15 @@ GEM
     simple_oauth (0.4.1)
       base64
       cgi
-    sorbet (0.6.13210)
-      sorbet-static (= 0.6.13210)
-    sorbet-runtime (0.6.13210)
-    sorbet-static (0.6.13210-aarch64-linux)
-    sorbet-static (0.6.13210-universal-darwin)
-    sorbet-static (0.6.13210-x86_64-linux)
-    sorbet-static-and-runtime (0.6.13210)
-      sorbet (= 0.6.13210)
-      sorbet-runtime (= 0.6.13210)
+    sorbet (0.6.13214)
+      sorbet-static (= 0.6.13214)
+    sorbet-runtime (0.6.13214)
+    sorbet-static (0.6.13214-aarch64-linux)
+    sorbet-static (0.6.13214-universal-darwin)
+    sorbet-static (0.6.13214-x86_64-linux)
+    sorbet-static-and-runtime (0.6.13214)
+      sorbet (= 0.6.13214)
+      sorbet-runtime (= 0.6.13214)
     uri (1.1.1)
 
 PLATFORMS
@@ -53,7 +53,7 @@ DEPENDENCIES
   sorbet-static-and-runtime (~> 0.6)
 
 RUBY VERSION
-   ruby 3.4.9p82
+  ruby 4.0.4
 
 BUNDLED WITH
-   2.6.9
+  4.0.10

@@ -19,11 +19,6 @@ RSpec.describe Options do
       expect(result).to eq('private, published')
     end
 
-    it 'works for CommunityLabelCategory' do
-      result = Options.enumerate_enum_values(Post::CommunityLabelCategory)
-      expect(result).to eq('drug_use, violence, sexual_themes')
-    end
-
     it 'raises when given a non-enum class' do
       expect { Options.enumerate_enum_values(String) }.to raise_error(RuntimeError, /does not inherit from T::Enum/)
     end

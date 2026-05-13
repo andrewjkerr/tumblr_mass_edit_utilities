@@ -39,7 +39,6 @@ RSpec.describe TumblrClient do
       'state' => 'published',
       'is_pinned' => false,
       'date' => '2024-01-01 00:00:00 GMT',
-      'community_label_categories' => [],
     }
   end
   let(:rate_limit_response) { {'status' => 429, 'msg' => 'Limit Exceeded'} }
@@ -103,25 +102,6 @@ RSpec.describe TumblrClient do
       client.edit('example.tumblr.com', '123', state: Post::State::PRIVATE)
     end
 
-    it 'calls edit with community label categories' do
-      expect(tumblr_double).to receive(:edit).with('example.tumblr.com', {
-        id: '123',
-        community_label_categories: ['drug_use'],
-        has_community_label: true,
-      }).and_return({})
-
-      client.edit('example.tumblr.com', '123', community_label_categories: [Post::CommunityLabelCategory::DRUG_USE])
-    end
-
-    it 'sets has_community_label to false when categories are empty' do
-      expect(tumblr_double).to receive(:edit).with('example.tumblr.com', {
-        id: '123',
-        community_label_categories: [],
-        has_community_label: false,
-      }).and_return({})
-
-      client.edit('example.tumblr.com', '123', community_label_categories: [])
-    end
   end
 
   describe '#unlike' do

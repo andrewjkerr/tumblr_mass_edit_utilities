@@ -4,8 +4,10 @@
 require 'date'
 require 'optparse'
 require 'sorbet-runtime'
-require 'tumblr_client'
 require 'yaml'
+
+# require our tumblr client
+require_relative('tumblr/client.rb')
 
 # require our libs!
 require_relative('lib/command.rb')
@@ -28,4 +30,3 @@ require_relative('command/base/iterate_through_posts.rb')
 # and then these
 require_relative('command/clear_likes.rb')
 require_relative('command/privatize_posts.rb')
-require_relative('command/update_community_labels.rb')

@@ -8,7 +8,6 @@ class Command
       ClearLikes = new
       Help = new('--help') # an "empty" command to support `--help` prompts
       PrivatizePosts = new
-      UpdateCommunityLabels = new
     end
   end
 

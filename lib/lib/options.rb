@@ -13,7 +13,6 @@ class Options < T::Struct
   prop :verbose, T::Boolean, default: false
   prop :tag, T.nilable(String)
   prop :command, Command::Command # this is required for execution
-  prop :community_label_categories, T.nilable(T::Array[Post::CommunityLabelCategory])
 
   sig {returns(Options)}
   def self.parse_options
@@ -47,26 +46,6 @@ class Options < T::Struct
       end
 
       opts.on('-v', '--verbose', 'Print debug-y information') { options.verbose = true }
-
-      # individual command options
-      case options.command
-      when Command::Command::UpdateCommunityLabels
-        opts.on('-lLABELS', '--labels=LABELS', "(required) A comma separated array of community labels to update posts with. Valid community labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}.") do |l|
-          community_label_categories = []
-          labels = l.split(',').map {|label| label.strip}
-          unless labels.empty?
-            labels.each do |label|
-              begin
-                community_label_categories << Post::CommunityLabelCategory.deserialize(label.downcase)
-              rescue
-                raise "Community label category #{label} is not valid. Valid labels: #{self.enumerate_enum_values(Post::CommunityLabelCategory)}."
-              end
-            end
-          end
-
-          options.community_label_categories = community_label_categories
-        end
-      end
 
       opts.on('-h', '--help', 'Prints this help') do
         puts opts

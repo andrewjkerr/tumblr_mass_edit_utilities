@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
-ruby '2.7.6'
+ruby '3.4.9'
 
-gem 'tumblr_client', '~> 0.8.5'
-gem 'sorbet-static-and-runtime', '~> 0.5.11366'
+gem 'faraday', '~> 2.0'
+gem 'simple_oauth', '~> 0.4'
+gem 'sorbet-static-and-runtime', '~> 0.6'
 
 group :test do
   gem 'rspec', '~> 3.13'

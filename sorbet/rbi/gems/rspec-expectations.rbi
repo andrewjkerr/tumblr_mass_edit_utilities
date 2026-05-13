@@ -12,44 +12,44 @@
 module RSpec
 end
 module RSpec::Matchers
-  def a_block_changing(*args, &block); end
-  def a_block_outputting(*args, &block); end
-  def a_block_raising(*args, &block); end
-  def a_block_throwing(*args, &block); end
-  def a_block_yielding_control(*args, &block); end
-  def a_block_yielding_successive_args(*args, &block); end
-  def a_block_yielding_with_args(*args, &block); end
-  def a_block_yielding_with_no_args(*args, &block); end
-  def a_collection_containing_exactly(*args, &block); end
-  def a_collection_ending_with(*args, &block); end
-  def a_collection_including(*args, &block); end
-  def a_collection_starting_with(*args, &block); end
-  def a_falsey_value(*args, &block); end
-  def a_falsy_value(*args, &block); end
-  def a_hash_including(*args, &block); end
-  def a_kind_of(*args, &block); end
-  def a_nil_value(*args, &block); end
-  def a_range_covering(*args, &block); end
-  def a_string_ending_with(*args, &block); end
-  def a_string_including(*args, &block); end
-  def a_string_matching(*args, &block); end
-  def a_string_starting_with(*args, &block); end
-  def a_truthy_value(*args, &block); end
-  def a_value(*args, &block); end
-  def a_value_between(*args, &block); end
-  def a_value_within(*args, &block); end
+  def a_block_changing(*args, **, &block); end
+  def a_block_outputting(*args, **, &block); end
+  def a_block_raising(*args, **, &block); end
+  def a_block_throwing(*args, **, &block); end
+  def a_block_yielding_control(*args, **, &block); end
+  def a_block_yielding_successive_args(*args, **, &block); end
+  def a_block_yielding_with_args(*args, **, &block); end
+  def a_block_yielding_with_no_args(*args, **, &block); end
+  def a_collection_containing_exactly(*args, **, &block); end
+  def a_collection_ending_with(*args, **, &block); end
+  def a_collection_including(*args, **, &block); end
+  def a_collection_starting_with(*args, **, &block); end
+  def a_falsey_value(*args, **, &block); end
+  def a_falsy_value(*args, **, &block); end
+  def a_hash_including(*args, **, &block); end
+  def a_kind_of(*args, **, &block); end
+  def a_nil_value(*args, **, &block); end
+  def a_range_covering(*args, **, &block); end
+  def a_string_ending_with(*args, **, &block); end
+  def a_string_including(*args, **, &block); end
+  def a_string_matching(*args, **, &block); end
+  def a_string_starting_with(*args, **, &block); end
+  def a_truthy_value(*args, **, &block); end
+  def a_value(*args, **, &block); end
+  def a_value_between(*args, **, &block); end
+  def a_value_within(*args, **, &block); end
   def aggregate_failures(label = nil, metadata = nil, &block); end
   def all(expected); end
-  def an_array_matching(*args, &block); end
-  def an_instance_of(*args, &block); end
-  def an_object_eq_to(*args, &block); end
-  def an_object_eql_to(*args, &block); end
-  def an_object_equal_to(*args, &block); end
-  def an_object_existing(*args, &block); end
-  def an_object_having_attributes(*args, &block); end
-  def an_object_matching(*args, &block); end
-  def an_object_responding_to(*args, &block); end
-  def an_object_satisfying(*args, &block); end
+  def an_array_matching(*args, **, &block); end
+  def an_instance_of(*args, **, &block); end
+  def an_object_eq_to(*args, **, &block); end
+  def an_object_eql_to(*args, **, &block); end
+  def an_object_equal_to(*args, **, &block); end
+  def an_object_existing(*args, **, &block); end
+  def an_object_having_attributes(*args, **, &block); end
+  def an_object_matching(*args, **, &block); end
+  def an_object_responding_to(*args, **, &block); end
+  def an_object_satisfying(*args, **, &block); end
   def be(*args); end
   def be_a(klass); end
   def be_a_kind_of(expected); end
@@ -57,47 +57,47 @@ module RSpec::Matchers
   def be_an_instance_of(expected); end
   def be_between(min, max); end
   def be_falsey; end
-  def be_falsy(*args, &block); end
+  def be_falsy(*args, **, &block); end
   def be_instance_of(expected); end
   def be_kind_of(expected); end
   def be_nil; end
   def be_truthy; end
   def be_within(delta); end
   def change(receiver = nil, message = nil, &block); end
-  def changing(*args, &block); end
+  def changing(*args, **, &block); end
   def contain_exactly(*items); end
-  def containing_exactly(*args, &block); end
+  def containing_exactly(*args, **, &block); end
   def cover(*values); end
-  def covering(*args, &block); end
+  def covering(*args, **, &block); end
   def end_with(*expected); end
-  def ending_with(*args, &block); end
+  def ending_with(*args, **, &block); end
   def eq(expected); end
-  def eq_to(*args, &block); end
+  def eq_to(*args, **, &block); end
   def eql(expected); end
-  def eql_to(*args, &block); end
+  def eql_to(*args, **, &block); end
   def equal(expected); end
-  def equal_to(*args, &block); end
+  def equal_to(*args, **, &block); end
   def exist(*args); end
-  def existing(*args, &block); end
+  def existing(*args, **, &block); end
   def expect(value = nil, &block); end
   def have_attributes(expected); end
-  def having_attributes(*args, &block); end
+  def having_attributes(*args, **, &block); end
   def include(*expected); end
-  def including(*args, &block); end
+  def including(*args, **, &block); end
   def match(expected); end
   def match_array(items); end
-  def match_regex(*args, &block); end
-  def matching(*args, &block); end
-  def method_missing(method, *args, &block); end
+  def match_regex(*args, **, &block); end
+  def matching(*args, **, &block); end
+  def method_missing(method, *args, **, &block); end
   def output(expected = nil); end
   def raise_error(error = nil, message = nil, &block); end
   def raise_exception(error = nil, message = nil, &block); end
-  def raising(*args, &block); end
+  def raising(*args, **, &block); end
   def respond_to(*names); end
-  def respond_to_missing?(method, *arg1); end
-  def responding_to(*args, &block); end
+  def respond_to_missing?(method, *); end
+  def responding_to(*args, **, &block); end
   def satisfy(description = nil, &block); end
-  def satisfying(*args, &block); end
+  def satisfying(*args, **, &block); end
   def self.alias_matcher(*args, &block); end
   def self.clear_generated_description; end
   def self.configuration; end
@@ -110,18 +110,18 @@ module RSpec::Matchers
   def self.last_matcher; end
   def self.last_matcher=(arg0); end
   def start_with(*expected); end
-  def starting_with(*args, &block); end
+  def starting_with(*args, **, &block); end
   def throw_symbol(expected_symbol = nil, expected_arg = nil); end
-  def throwing(*args, &block); end
-  def within(*args, &block); end
+  def throwing(*args, **, &block); end
+  def within(*args, **, &block); end
   def yield_control; end
   def yield_successive_args(*args); end
   def yield_with_args(*args); end
   def yield_with_no_args; end
-  def yielding_control(*args, &block); end
-  def yielding_successive_args(*args, &block); end
-  def yielding_with_args(*args, &block); end
-  def yielding_with_no_args(*args, &block); end
+  def yielding_control(*args, **, &block); end
+  def yielding_successive_args(*args, **, &block); end
+  def yielding_with_args(*args, **, &block); end
+  def yielding_with_no_args(*args, **, &block); end
   extend RSpec::Matchers::DSL
 end
 module RSpec::Matchers::EnglishPhrasing
@@ -151,6 +151,7 @@ class RSpec::Matchers::Composable::DescribableItem < Struct
   def pretty_print(pp); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -237,7 +238,7 @@ class RSpec::Matchers::DSL::Matcher
   def expected_as_array; end
   def initialize(name, declarations, matcher_execution_context, *expected, &block_arg); end
   def inspect; end
-  def method_missing(method, *args, &block); end
+  def method_missing(method, *args, **, &block); end
   def name; end
   def rescued_exception; end
   def respond_to_missing?(method, include_private = nil); end
@@ -262,7 +263,7 @@ class RSpec::Matchers::AliasedMatcher < RSpec::Matchers::MatcherDelegator
   def failure_message; end
   def failure_message_when_negated; end
   def initialize(base_matcher, description_block); end
-  def method_missing(*arg0); end
+  def method_missing(*); end
 end
 class RSpec::Matchers::AliasedMatcherWithOperatorSupport < RSpec::Matchers::AliasedMatcher
 end
@@ -366,7 +367,7 @@ end
 module RSpec::Expectations::Configuration::NullBacktraceFormatter
   def self.format_backtrace(backtrace); end
 end
-class InvalidName___Class_0x00___Differ_7
+class InvalidName___Class_0x00___Differ_1
 end
 module RSpec::Expectations::ExpectationHelper
   def self.check_message(msg); end
@@ -465,7 +466,7 @@ class RSpec::Expectations::BlockSnippetExtractor::BlockTokenExtractor < Struct
   def handle_closer_token(token); end
   def handle_opener_token(token); end
   def initial_state(token); end
-  def initialize(*arg0); end
+  def initialize(*); end
   def invoke_state_handler(token); end
   def method_name; end
   def method_name=(_); end
@@ -476,6 +477,7 @@ class RSpec::Expectations::BlockSnippetExtractor::BlockTokenExtractor < Struct
   def pipe_token?(token); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def source; end
@@ -497,6 +499,7 @@ class RSpec::Expectations::BlockSnippetExtractor::BlockLocator < Struct
   def method_name=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def source; end
@@ -588,7 +591,7 @@ class RSpec::Matchers::BuiltIn::DynamicPredicate < RSpec::Matchers::BuiltIn::Bas
   def failure_message_expecting(value); end
   def failure_message_when_negated; end
   def failure_to_respond_explanation; end
-  def initialize(method_name, *args, &block); end
+  def initialize(method_name, *args, **, &block); end
   def matches?(actual, &block); end
   def method_description; end
   def methods_include?(method); end
@@ -720,7 +723,7 @@ class RSpec::Matchers::BuiltIn::Compound < RSpec::Matchers::BuiltIn::BaseMatcher
   def supports_value_expectations?; end
 end
 class RSpec::Matchers::BuiltIn::Compound::SequentialEvaluator
-  def initialize(actual, *arg1); end
+  def initialize(actual, *); end
   def matcher_matches?(matcher); end
 end
 class RSpec::Matchers::BuiltIn::Compound::NestedEvaluator
@@ -733,12 +736,12 @@ end
 class RSpec::Matchers::BuiltIn::Compound::And < RSpec::Matchers::BuiltIn::Compound
   def conjunction; end
   def failure_message; end
-  def match(*arg0); end
+  def match(*); end
 end
 class RSpec::Matchers::BuiltIn::Compound::Or < RSpec::Matchers::BuiltIn::Compound
   def conjunction; end
   def failure_message; end
-  def match(*arg0); end
+  def match(*); end
 end
 class RSpec::Matchers::BuiltIn::ContainExactly < RSpec::Matchers::BuiltIn::BaseMatcher
   def actual_collection_line; end
@@ -783,6 +786,7 @@ class RSpec::Matchers::BuiltIn::ContainExactly::PairingsMaximizer::Solution < St
   def indeterminate_expected_indexes=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def unmatched_actual_indexes; end
@@ -846,17 +850,18 @@ class RSpec::Matchers::BuiltIn::Exist < RSpec::Matchers::BuiltIn::BaseMatcher
   def initialize(*expected); end
   def matches?(actual); end
 end
-class Anonymous_Struct_8 < Struct
+class Anonymous_Struct_2 < Struct
   def actual; end
   def actual=(_); end
   def expected; end
   def expected=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
-class RSpec::Matchers::BuiltIn::Exist::ExistenceTest < Anonymous_Struct_8
+class RSpec::Matchers::BuiltIn::Exist::ExistenceTest < Anonymous_Struct_2
   def actual_exists?; end
   def deprecated(predicate, actual); end
   def existence_values; end
@@ -1022,17 +1027,18 @@ module RSpec::Matchers::BuiltIn::CaptureStderr
   def self.capture(block); end
   def self.name; end
 end
-class Anonymous_Struct_9 < Struct
+class Anonymous_Struct_3 < Struct
   def name; end
   def name=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def stream; end
   def stream=(_); end
 end
-class RSpec::Matchers::BuiltIn::CaptureStreamToTempfile < Anonymous_Struct_9
+class RSpec::Matchers::BuiltIn::CaptureStreamToTempfile < Anonymous_Struct_3
   def capture(block); end
 end
 class RSpec::Matchers::BuiltIn::RaiseError

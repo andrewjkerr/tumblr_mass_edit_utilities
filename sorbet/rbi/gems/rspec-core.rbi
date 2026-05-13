@@ -207,7 +207,7 @@ class RSpec::Core::Formatters::ExceptionPresenter::Factory
   def with_multiple_error_options_as_needed(exception, options); end
 end
 module RSpec::Core::Formatters::ExceptionPresenter::Factory::EmptyBacktraceFormatter
-  def self.format_backtrace(*arg0); end
+  def self.format_backtrace(*); end
 end
 class RSpec::Core::Formatters::ExceptionPresenter::Factory::CommonBacktraceTruncater
   def initialize(parent); end
@@ -259,6 +259,7 @@ class RSpec::Core::Notifications::StartNotification < Struct
   def load_time=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -268,6 +269,7 @@ class RSpec::Core::Notifications::ExampleNotification < Struct
   def self.[](*arg0); end
   def self.for(example); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -308,6 +310,7 @@ class RSpec::Core::Notifications::GroupNotification < Struct
   def group=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -316,6 +319,7 @@ class RSpec::Core::Notifications::MessageNotification < Struct
   def message=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -326,6 +330,7 @@ class RSpec::Core::Notifications::SeedNotification < Struct
   def seed_used?; end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def used; end
@@ -356,6 +361,7 @@ class RSpec::Core::Notifications::SummaryNotification < Struct
   def rerun_argument_for(example); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def totals_line; end
@@ -384,6 +390,7 @@ class RSpec::Core::Notifications::DeprecationNotification < Struct
   def self.[](*arg0); end
   def self.from_hash(data); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -426,7 +433,7 @@ class RSpec::Core::Reporter
   def stop(notification); end
 end
 class RSpec::Core::NullReporter
-  def self.method_missing(*arg0); end
+  def self.method_missing(*); end
 end
 module RSpec::Core::Hooks
   def after(*args, &block); end
@@ -445,6 +452,7 @@ class RSpec::Core::Hooks::Hook < Struct
   def options=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -486,7 +494,7 @@ module RSpec::Core::MemoizedHelpers
   def __init_memoized; end
   def __memoized; end
   def enforce_value_expectation(matcher, method_name); end
-  def initialize(*arg0); end
+  def initialize(*); end
   def is_expected; end
   def matcher_supports_value_expectations?(matcher); end
   def self.define_helpers_on(example_group); end
@@ -605,6 +613,7 @@ module RSpec::Core::HashImitatable
   def each_with_object(*args, &block); end
   def empty?(*args, &block); end
   def entries(*args, &block); end
+  def except(*args, &block); end
   def extra_hash_attributes; end
   def fetch(*args, &block); end
   def fetch_values(*args, &block); end
@@ -625,7 +634,6 @@ module RSpec::Core::HashImitatable
   def has_value?(*args, &block); end
   def hash_for_delegation; end
   def include?(*args, &block); end
-  def index(*args, &block); end
   def inject(*args, &block); end
   def invert(*args, &block); end
   def issue_deprecation(_method_name, *_args); end
@@ -901,6 +909,7 @@ class RSpec::Core::Formatters::DeprecationFormatter::SpecifiedDeprecationMessage
   def output_formatted(str); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def to_s; end
@@ -912,6 +921,7 @@ class RSpec::Core::Formatters::DeprecationFormatter::GeneratedDeprecationMessage
   def initialize(data); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def to_s; end
@@ -955,15 +965,12 @@ class RSpec::Core::OutputWrapper
   def autoclose?(*args, &block); end
   def binmode(*args, &block); end
   def binmode?(*args, &block); end
-  def bytes(*args, &block); end
-  def chars(*args, &block); end
   def close(*args, &block); end
   def close_on_exec=(*args, &block); end
   def close_on_exec?(*args, &block); end
   def close_read(*args, &block); end
   def close_write(*args, &block); end
   def closed?(*args, &block); end
-  def codepoints(*args, &block); end
   def each(*args, &block); end
   def each_byte(*args, &block); end
   def each_char(*args, &block); end
@@ -987,7 +994,6 @@ class RSpec::Core::OutputWrapper
   def isatty(*args, &block); end
   def lineno(*args, &block); end
   def lineno=(*args, &block); end
-  def lines(*args, &block); end
   def method_missing(name, *args, &block); end
   def nonblock(*args, &block); end
   def nonblock=(*args, &block); end
@@ -995,6 +1001,7 @@ class RSpec::Core::OutputWrapper
   def nread(*args, &block); end
   def output; end
   def output=(arg0); end
+  def path(*args, &block); end
   def pathconf(*args, &block); end
   def pid(*args, &block); end
   def pos(*args, &block); end
@@ -1026,12 +1033,16 @@ class RSpec::Core::OutputWrapper
   def sysseek(*args, &block); end
   def syswrite(*args, &block); end
   def tell(*args, &block); end
+  def timeout(*args, &block); end
+  def timeout=(*args, &block); end
   def to_i(*args, &block); end
   def to_io(*args, &block); end
+  def to_path(*args, &block); end
   def tty?(*args, &block); end
   def ungetbyte(*args, &block); end
   def ungetc(*args, &block); end
   def wait(*args, &block); end
+  def wait_priority(*args, &block); end
   def wait_readable(*args, &block); end
   def wait_writable(*args, &block); end
   def write(*args, &block); end
@@ -1408,6 +1419,7 @@ class RSpec::Core::Invocations::PrintHelp < Struct
   def parser=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -1463,6 +1475,7 @@ class RSpec::Core::Example
 end
 class RSpec::Core::Example::Procsy
   def <<(*a, &b); end
+  def ==(*a, &b); end
   def ===(*a, &b); end
   def >>(*a, &b); end
   def [](*a, &b); end
@@ -1476,6 +1489,7 @@ class RSpec::Core::Example::Procsy
   def description(*a, &b); end
   def dup(*a, &b); end
   def duplicate_with(*a, &b); end
+  def eql?(*a, &b); end
   def example; end
   def example_group(*a, &b); end
   def example_group_instance(*a, &b); end
@@ -1574,7 +1588,7 @@ class RSpec::Core::ExampleGroup
   def described_class; end
   def initialize(inspect_output = nil); end
   def inspect; end
-  def method_missing(name, *args); end
+  def method_missing(name, *args, **); end
   def self.add_example(example); end
   def self.before_context_ivars; end
   def self.children; end
@@ -1676,7 +1690,7 @@ module RSpec::Support
   def self.require_rspec_core(f); end
 end
 class RSpec::Core::Time
-  def self.now(*arg0); end
+  def self.now(in: nil); end
 end
 class Module
   def context(*a, &b); end
@@ -1719,6 +1733,7 @@ class RSpec::Core::SharedContext::Recording < Struct
   def playback_onto(group); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -1876,45 +1891,4 @@ class RSpec::Core::Formatters::JsonFormatter < RSpec::Core::Formatters::BaseForm
   def output_hash; end
   def seed(notification); end
   def stop(group_notification); end
-end
-module RSpec::Core::Bisect
-end
-class RSpec::Core::Bisect::ExampleSetDescriptor < Struct
-  def all_example_ids; end
-  def all_example_ids=(_); end
-  def failed_example_ids; end
-  def failed_example_ids=(_); end
-  def self.[](*arg0); end
-  def self.inspect; end
-  def self.members; end
-  def self.new(*arg0); end
-end
-class RSpec::Core::Bisect::BisectFailedError < StandardError
-  def self.for_failed_spec_run(spec_output); end
-end
-class RSpec::Core::Bisect::Notifier
-  def initialize(formatter); end
-  def publish(event, *args); end
-end
-class RSpec::Core::Bisect::Channel
-  def close; end
-  def initialize; end
-  def receive; end
-  def send(message); end
-end
-class RSpec::Core::Formatters::BaseBisectFormatter
-  def example_failed(notification); end
-  def example_finished(notification); end
-  def initialize(expected_failures); end
-  def self.inherited(formatter); end
-  def start_dump(_notification); end
-end
-class RSpec::Core::Formatters::BisectDRbFormatter < RSpec::Core::Formatters::BaseBisectFormatter
-  def initialize(_output); end
-  def notify_results(results); end
-end
-class RSpec::Core::Formatters::FailureListFormatter < RSpec::Core::Formatters::BaseFormatter
-  def dump_profile(_profile); end
-  def example_failed(failure); end
-  def message(_message); end
 end

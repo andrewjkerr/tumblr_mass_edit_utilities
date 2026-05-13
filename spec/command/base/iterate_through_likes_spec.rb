@@ -28,7 +28,6 @@ RSpec.describe Command::Base::IterateThroughLikes do
       'state' => 'published',
       'is_pinned' => false,
       'date' => '2024-01-01 00:00:00 GMT',
-      'community_label_categories' => [],
     }.merge(overrides)
   end
 

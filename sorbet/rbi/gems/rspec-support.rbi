@@ -198,8 +198,8 @@ class RSpec::Support::LooseSignatureVerifier::SignatureWithKeywordArgumentsMatch
   def valid_non_kw_args?(*args); end
 end
 module RSpec::Support::WithKeywordsWhenNeeded
-  def class_exec(klass, *args, &block); end
-  def self.class_exec(klass, *args, &block); end
+  def class_exec(klass, *args, **, &block); end
+  def self.class_exec(klass, *args, **, &block); end
 end
 module RSpec::Support::RecursiveConstMethods
   def const_defined_on?(mod, const_name); end
@@ -231,6 +231,7 @@ class RSpec::Support::ObjectFormatter::InspectableItem < Struct
   def pretty_print(pp); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
   def text; end
@@ -246,6 +247,7 @@ class RSpec::Support::ObjectFormatter::BaseInspector < Struct
   def self.[](*arg0); end
   def self.can_inspect?(_object); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end

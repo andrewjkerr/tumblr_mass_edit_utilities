@@ -55,7 +55,7 @@ class RSpec::Mocks::MethodDouble
   def object_singleton_class; end
   def original_implementation_callable; end
   def original_method; end
-  def proxy_method_invoked(_obj, *args, &block); end
+  def proxy_method_invoked(_obj, *args, **, &block); end
   def raise_method_not_stubbed_error; end
   def remove_method_from_definition_target; end
   def remove_stub; end
@@ -92,7 +92,7 @@ module RSpec::Mocks::ArgumentMatchers
 end
 class RSpec::Mocks::ArgumentMatchers::SingletonMatcher
   def self.inherited(subklass); end
-  def self.new(*arg0); end
+  def self.new(*, **); end
 end
 class RSpec::Mocks::ArgumentMatchers::AnyArgsMatcher < RSpec::Mocks::ArgumentMatchers::SingletonMatcher
   def description; end
@@ -210,14 +210,14 @@ class RSpec::Mocks::Proxy
   def check_for_unexpected_arguments(expectation); end
   def ensure_can_be_proxied!(object); end
   def ensure_implemented(*_args); end
-  def find_almost_matching_expectation(method_name, *args); end
-  def find_almost_matching_stub(method_name, *args); end
+  def find_almost_matching_expectation(method_name, *args, **); end
+  def find_almost_matching_stub(method_name, *args, **); end
   def find_best_matching_expectation_for(method_name); end
-  def find_matching_expectation(method_name, *args); end
-  def find_matching_method_stub(method_name, *args); end
+  def find_matching_expectation(method_name, *args, **); end
+  def find_matching_method_stub(method_name, *args, **); end
   def has_negative_expectation?(message); end
   def initialize(object, order_group, options = nil); end
-  def message_received(message, *args, &block); end
+  def message_received(message, *args, **, &block); end
   def messages_arg_list; end
   def method_double_for(message); end
   def method_double_if_exists_for_message(message); end
@@ -228,7 +228,7 @@ class RSpec::Mocks::Proxy
   def raise_missing_default_stub_error(expectation, args_for_multiple_calls); end
   def raise_unexpected_message_error(method_name, args); end
   def received_message?(method_name, *args, &block); end
-  def record_message_received(message, *args, &block); end
+  def record_message_received(message, *args, **, &block); end
   def remove_stub(method_name); end
   def remove_stub_if_present(method_name); end
   def replay_received_message_on(expectation, &block); end
@@ -247,6 +247,7 @@ class RSpec::Mocks::Proxy::SpecificMessage < Struct
   def object=(_); end
   def self.[](*arg0); end
   def self.inspect; end
+  def self.keyword_init?; end
   def self.members; end
   def self.new(*arg0); end
 end
@@ -257,7 +258,7 @@ class RSpec::Mocks::PartialDoubleProxy < RSpec::Mocks::Proxy
   def add_simple_expectation(method_name, response, location); end
   def add_simple_stub(method_name, response); end
   def any_instance_class_recorder_observing_method?(klass, method_name); end
-  def message_received(message, *args, &block); end
+  def message_received(message, *args, **, &block); end
   def original_method_handle_for(message); end
   def reset; end
   def visibility_for(method_name); end
@@ -313,10 +314,10 @@ module RSpec::Mocks::TestDoubleFormatter
   def self.verified_module_desc(dbl); end
 end
 class RSpec::Mocks::ArgumentListMatcher
-  def args_match?(*actual_args); end
+  def args_match?(*actual_args, **); end
   def ensure_expected_args_valid!; end
   def expected_args; end
-  def initialize(*expected_args); end
+  def initialize(*expected_args, **); end
   def replace_any_args_with_splat_of_anything(before_count, actual_args_count); end
   def resolve_expected_args_based_on(actual_args); end
 end
@@ -348,7 +349,7 @@ class RSpec::Mocks::MessageExpectation
   def times(&block); end
   def to_s; end
   def twice(&block); end
-  def with(*args, &block); end
+  def with(*args, **, &block); end
   include RSpec::Mocks::MessageExpectation::ImplementationDetails
 end
 module RSpec::Mocks::MessageExpectation::ImplementationDetails
@@ -377,12 +378,12 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   def initial_implementation_action=(action); end
   def initialize(error_generator, expectation_ordering, expected_from, method_double, type = nil, opts = nil, &implementation_block); end
   def inner_implementation_action=(action); end
-  def invoke(parent_stub, *args, &block); end
-  def invoke_incrementing_actual_calls_by(increment, allowed_to_fail, parent_stub, *args, &block); end
-  def invoke_without_incrementing_received_count(parent_stub, *args, &block); end
+  def invoke(parent_stub, *args, **, &block); end
+  def invoke_incrementing_actual_calls_by(increment, allowed_to_fail, parent_stub, *args, **, &block); end
+  def invoke_without_incrementing_received_count(parent_stub, *args, **, &block); end
   def invoking_internals; end
   def invoking_internals=(value); end
-  def matches?(message, *args); end
+  def matches?(message, *args, **); end
   def matches_at_least_count?; end
   def matches_at_most_count?; end
   def matches_exact_count?; end
@@ -395,8 +396,8 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   def raise_already_invoked_error_if_necessary(calling_customization); end
   def raise_out_of_order_error; end
   def raise_unexpected_message_args_error(args_for_multiple_calls); end
-  def safe_invoke(parent_stub, *args, &block); end
-  def safe_invoke_without_incrementing_received_count(parent_stub, *args, &block); end
+  def safe_invoke(parent_stub, *args, **, &block); end
+  def safe_invoke_without_incrementing_received_count(parent_stub, *args, **, &block); end
   def set_expected_received_count(relativity, n); end
   def similar_messages; end
   def terminal_implementation_action=(action); end
@@ -416,12 +417,12 @@ class RSpec::Mocks::AndReturnImplementation
   def initialize(values_to_return); end
 end
 class RSpec::Mocks::AndInvokeImplementation
-  def call(*args, &block); end
+  def call(*args, **, &block); end
   def initialize(procs_to_invoke); end
 end
 class RSpec::Mocks::Implementation
   def actions; end
-  def call(*args, &block); end
+  def call(*args, **, &block); end
   def initial_action; end
   def initial_action=(arg0); end
   def inner_action; end
@@ -431,7 +432,7 @@ class RSpec::Mocks::Implementation
   def terminal_action=(arg0); end
 end
 class RSpec::Mocks::AndWrapOriginalImplementation
-  def call(*args, &block); end
+  def call(*args, **, &block); end
   def cannot_modify_further_error; end
   def initial_action=(_value); end
   def initialize(method, block); end
@@ -725,7 +726,7 @@ class RSpec::Mocks::VerifyingMessageExpectation < RSpec::Mocks::MessageExpectati
   def method_reference; end
   def method_reference=(arg0); end
   def validate_expected_arguments!; end
-  def with(*args, &block); end
+  def with(*args, **, &block); end
 end
 class RSpec::Mocks::MethodReference
   def defined?; end
@@ -792,7 +793,7 @@ class RSpec::Mocks::VerifyingMethodDouble < RSpec::Mocks::MethodDouble
   def add_stub(*args, &block); end
   def initialize(object, method_name, proxy, method_reference); end
   def message_expectation_class; end
-  def proxy_method_invoked(obj, *args, &block); end
+  def proxy_method_invoked(obj, *args, **, &block); end
   def validate_arguments!(actual_args); end
 end
 class RSpec::Mocks::VerifyingExistingMethodDouble < RSpec::Mocks::VerifyingMethodDouble
@@ -805,11 +806,11 @@ class RSpec::Mocks::VerifyingExistingClassNewMethodDouble < RSpec::Mocks::Verify
   def with_signature; end
 end
 module RSpec::Mocks::VerifyingDouble
-  def __send__(name, *args, &block); end
+  def __send__(name, *args, **, &block); end
   def initialize(doubled_module, *args); end
   def method_missing(message, *args, &block); end
   def respond_to?(message, include_private = nil); end
-  def send(name, *args, &block); end
+  def send(name, *args, **, &block); end
 end
 class RSpec::Mocks::InstanceVerifyingDouble
   def __build_mock_proxy(order_group); end
@@ -1033,27 +1034,27 @@ class RSpec::Mocks::Matchers::ExpectationCustomization
   def playback_onto(expectation); end
 end
 class RSpec::Mocks::Matchers::Receive
-  def and_call_original(*args, &block); end
-  def and_invoke(*args, &block); end
-  def and_raise(*args, &block); end
-  def and_return(*args, &block); end
-  def and_throw(*args, &block); end
-  def and_wrap_original(*args, &block); end
-  def and_yield(*args, &block); end
-  def at_least(*args, &block); end
-  def at_most(*args, &block); end
+  def and_call_original(*args, **, &block); end
+  def and_invoke(*args, **, &block); end
+  def and_raise(*args, **, &block); end
+  def and_return(*args, **, &block); end
+  def and_throw(*args, **, &block); end
+  def and_wrap_original(*args, **, &block); end
+  def and_yield(*args, **, &block); end
+  def at_least(*args, **, &block); end
+  def at_most(*args, **, &block); end
   def describable; end
   def description; end
   def does_not_match?(subject, &block); end
-  def exactly(*args, &block); end
+  def exactly(*args, **, &block); end
   def initialize(message, block); end
-  def inspect(*args, &block); end
+  def inspect(*args, **, &block); end
   def matcher_name; end
   def matches?(subject, &block); end
   def move_block_to_last_customization(block); end
-  def never(*args, &block); end
-  def once(*args, &block); end
-  def ordered(*args, &block); end
+  def never(*args, **, &block); end
+  def once(*args, **, &block); end
+  def ordered(*args, **, &block); end
   def setup_allowance(subject, &block); end
   def setup_any_instance_allowance(subject, &block); end
   def setup_any_instance_expectation(subject, &block); end
@@ -1063,13 +1064,13 @@ class RSpec::Mocks::Matchers::Receive
   def setup_method_substitute(host, method, block, *args); end
   def setup_mock_proxy_method_substitute(subject, method, block); end
   def setup_negative_expectation(subject, &block); end
-  def thrice(*args, &block); end
-  def time(*args, &block); end
-  def times(*args, &block); end
-  def to_s(*args, &block); end
-  def twice(*args, &block); end
+  def thrice(*args, **, &block); end
+  def time(*args, **, &block); end
+  def times(*args, **, &block); end
+  def to_s(*args, **, &block); end
+  def twice(*args, **, &block); end
   def warn_if_any_instance(expression, subject); end
-  def with(*args, &block); end
+  def with(*args, **, &block); end
   include RSpec::Mocks::Matchers::Matcher
 end
 class RSpec::Mocks::Matchers::Receive::DefaultDescribable

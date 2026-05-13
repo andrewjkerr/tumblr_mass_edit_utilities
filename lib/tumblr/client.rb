@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 require 'faraday'
 require 'simple_oauth'
 require 'json'

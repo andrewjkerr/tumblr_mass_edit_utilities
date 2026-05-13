@@ -4,8 +4,10 @@
 require 'date'
 require 'optparse'
 require 'sorbet-runtime'
-require 'tumblr_client'
 require 'yaml'
+
+# require our tumblr client
+require_relative('tumblr/client.rb')
 
 # require our libs!
 require_relative('lib/command.rb')

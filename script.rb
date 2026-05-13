@@ -16,8 +16,6 @@ when Command::Command::ClearLikes
   Command::ClearLikes.call(options, config, client)
 when Command::Command::PrivatizePosts
   Command::PrivatizePosts.call(options, config, client)
-when Command::Command::UpdateCommunityLabels
-  Command::UpdateCommunityLabels.call(options, config, client)
 else
   raise "Un-implemented command #{options.command}. Please implement the command."
 end

@@ -11,21 +11,12 @@ class Post < T::Struct
     end
   end
 
-  class CommunityLabelCategory < T::Enum
-    enums do
-      DRUG_USE = new
-      VIOLENCE = new
-      SEXUAL_THEMES = new
-    end
-  end
-
   const :id, String
   const :post_url, String
   const :reblog_key, String
   const :state, State
   const :is_pinned, T::Boolean
   const :date, String
-  const :community_label_categories, T::Array[String]
 
   sig {params(posts: T::Array[T::Hash[String, T.untyped]]).returns(T::Array[Post])}
   def self.from_response_posts_array(posts)
@@ -41,7 +32,6 @@ class Post < T::Struct
       state: State.deserialize(post.dig('state')),
       is_pinned: post.dig('is_pinned') || false,
       date: post.dig('date'),
-      community_label_categories: post.dig('community_label_categories') || [],
     )
   end
 end

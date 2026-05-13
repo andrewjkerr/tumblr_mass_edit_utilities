@@ -19,7 +19,6 @@ require_relative('../lib/command/base/iterate_through_likes.rb')
 require_relative('../lib/command/base/iterate_through_posts.rb')
 require_relative('../lib/command/clear_likes.rb')
 require_relative('../lib/command/privatize_posts.rb')
-require_relative('../lib/command/update_community_labels.rb')
 
 RSpec.configure do |config|
   config.before(:each) { allow($stdout).to receive(:puts) }

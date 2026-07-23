@@ -109,6 +109,35 @@ RSpec.describe Command::Base::IterateThroughPosts do
       expect(tumblr_api_double).to receive(:posts).once
       Command::Base::IterateThroughPosts.new.call(options, config, client) { }
     end
+
+    it 'stops following pagination after consecutive pages with only pinned posts' do
+      pinned_page = {
+        'posts' => [make_post('is_pinned' => true)],
+        '_links' => {'next' => {'query_params' => {'page_number' => '2'}}},
+      }
+      allow(tumblr_api_double).to receive(:posts).and_return(pinned_page)
+
+      max_pages = Command::Base::IterateThroughPosts::MAX_CONSECUTIVE_EMPTY_PAGES
+      expect(tumblr_api_double).to receive(:posts).exactly(max_pages).times
+
+      yielded = []
+      Command::Base::IterateThroughPosts.new.call(options, config, client) { |p| yielded << p }
+      expect(yielded).to be_empty
+    end
+
+    it 'stops iterating after hitting the max loop iterations safety cap' do
+      stub_const('Command::Base::IterateThroughPosts::MAX_LOOP_ITERATIONS', 3)
+
+      page = {
+        'posts' => [make_post],
+        '_links' => {'next' => {'query_params' => {'page_number' => '2'}}},
+      }
+      allow(tumblr_api_double).to receive(:posts).and_return(page)
+
+      yielded_ids = []
+      Command::Base::IterateThroughPosts.new.call(options, config, client) { |p| yielded_ids << p.id }
+      expect(yielded_ids.size).to eq(3)
+    end
   end
 
   describe '#should_skip_post?' do

@@ -30,15 +30,15 @@ GEM
     simple_oauth (0.4.1)
       base64
       cgi
-    sorbet (0.6.13321)
-      sorbet-static (= 0.6.13321)
-    sorbet-runtime (0.6.13321)
-    sorbet-static (0.6.13321-aarch64-linux)
-    sorbet-static (0.6.13321-universal-darwin)
-    sorbet-static (0.6.13321-x86_64-linux)
-    sorbet-static-and-runtime (0.6.13321)
-      sorbet (= 0.6.13321)
-      sorbet-runtime (= 0.6.13321)
+    sorbet (0.6.13454)
+      sorbet-static (= 0.6.13454)
+    sorbet-runtime (0.6.13454)
+    sorbet-static (0.6.13454-aarch64-linux)
+    sorbet-static (0.6.13454-universal-darwin)
+    sorbet-static (0.6.13454-x86_64-linux)
+    sorbet-static-and-runtime (0.6.13454)
+      sorbet (= 0.6.13454)
+      sorbet-runtime (= 0.6.13454)
     uri (1.1.1)
 
 PLATFORMS

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '4.0.4'
 
 gem 'faraday', '~> 2.14'
-gem 'simple_oauth', '~> 0.4'
+gem 'simple_oauth', '~> 1.0'
 gem 'sorbet-static-and-runtime', '~> 0.6'
 
 group :test do
